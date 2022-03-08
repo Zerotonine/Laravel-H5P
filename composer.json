@@ -37,7 +37,8 @@
         "laravelcollective/html": ">=6.0.0",
         "escolasoft/h5p-core": "dev-master",
         "escolasoft/h5p-editor": "dev-master",
-        "guzzlehttp/guzzle": ">=6"
+        "guzzlehttp/guzzle": ">=6",
+        "laravel/legacy-factories": "^1.3"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.8",
