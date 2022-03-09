@@ -23,6 +23,8 @@ class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider
 
     public function register()
     {
+        parent::register();
+
         $this->app->singleton('LaravelH5p', function ($app) {
             $LaravelH5p = new LaravelH5p($app);
 
