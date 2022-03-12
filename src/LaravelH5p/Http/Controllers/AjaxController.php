@@ -57,7 +57,7 @@ class AjaxController extends Controller
         $response = $editor->ajax->action(H5PEditorEndpoints::CONTENT_TYPE_CACHE, $request->get('_token'));
 
         $installedLibraries = H5pLibrary::all();
-
+        return; //early return, w/o content hub does not show up
         $response['libraries'] = collect($response['libraries'])->map(function ($lib) use ($installedLibraries) {
             $lib['installed'] = $installedLibraries->contains('name', $lib['machineName']);
 
@@ -79,8 +79,10 @@ class AjaxController extends Controller
 
     public function libraryInstall(Request $request)
     {
+        // die($request->get('id'));
         $h5p = App::make('LaravelH5p');
         $editor = $h5p::$h5peditor;
+        // $editor->ajax->action(H5PEditorEndpoints::LIBRARY_INSTALL, $request->get('_token'), $request->get('machineName'));
         $editor->ajax->action(H5PEditorEndpoints::LIBRARY_INSTALL, $request->get('_token'), $request->get('machineName'));
     }
 

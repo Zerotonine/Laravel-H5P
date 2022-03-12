@@ -77,6 +77,21 @@ Route::prefix('admin/h5p')->group(function () {
             Route::post('ajax/{nonce}/files', 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@files');
             Route::get('ajax/{nonce}/libraries', 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@libraries');
             Route::get('ajax/{nonce}/single-libraries', 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@singleLibrary');
+            //new
+            Route::get(
+                'ajax/{nonce}/content-type-cache',
+                'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@contentTypeCache'
+            )->name('h5p.ajax.content-type-cache');
+
+            Route::post(
+                'ajax/{nonce}/library-install',
+                'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@libraryInstall'
+            )->name('h5p.ajax.library-install');
+
+            Route::post(
+                'ajax/{nonce}/library-upload',
+                'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@libraryUpload'
+            )->name('h5p.ajax.library-upload');
         }
 
         // export

@@ -41,11 +41,16 @@ Add to Composer-Classmap:
 ];
 ```
 
-Link files
+Link files (after first library upload on /admin/h5p/library)
 
+on linux:
 ```
-cd public/assets/vendor/h5p
 ln -s public/assets/vendor/h5p ../../../../storage/app/public/h5p/libraries
+```
+
+on windows (in cmd with admin rights or without admin rights if dev mode is turned on):
+```
+mklink /d /j public\assets\vendor\h5p\libraries storage\app\public\h5p\libraries
 ```
 
 You probably will need to add it to your `app/Http/Middleware/VerifyCsrfToken.php` due to H5P ajax requests without Laravel CSRF token:
