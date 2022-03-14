@@ -1079,7 +1079,9 @@ class LaravelH5pRepository implements H5PFrameworkInterface
      */
     public function afterExportCreated($content, $filename)
     {
-        $this->_download_file = public_path('h5p/exports/'.$filename);
+        // $this->_download_file = public_path('h5p/exports/'.$filename);
+        $this->_download_file = public_path('assets/vendor/h5p/exports/'.$filename);
+
     }
 
     /**
