@@ -92,6 +92,11 @@ Route::prefix('admin/h5p')->group(function () {
                 'ajax/{nonce}/library-upload',
                 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@libraryUpload'
             )->name('h5p.ajax.library-upload');
+
+            Route::post(
+                'ajax/{nonce}/filter',
+                'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@filter'
+            )->name('h5p.ajax.filter');
         }
 
         // export
