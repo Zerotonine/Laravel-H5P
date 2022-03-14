@@ -45,7 +45,9 @@ Link files (after first library upload on /admin/h5p/library)
 
 on linux:
 ```
-ln -s public/assets/vendor/h5p ../../../../storage/app/public/h5p/libraries
+cd public/assets/vendor/h5p
+ln -s ../../../../storage/app/public/h5p/libraries
+ln -s ../../../../storage/app/public/h5p/exports
 ```
 
 on windows (in cmd with admin rights or without admin rights if dev mode is turned on):
