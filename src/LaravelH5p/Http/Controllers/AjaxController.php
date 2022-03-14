@@ -79,7 +79,6 @@ class AjaxController extends Controller
 
     public function libraryInstall(Request $request)
     {
-        // die($request->get('id'));
         $h5p = App::make('LaravelH5p');
         $editor = $h5p::$h5peditor;
         // $editor->ajax->action(H5PEditorEndpoints::LIBRARY_INSTALL, $request->get('_token'), $request->get('machineName'));
@@ -106,6 +105,12 @@ class AjaxController extends Controller
             $last = H5pTmpfile::orderBy('id', 'desc')->first();
             $last->update([ 'nonce' => $nonce ]);
         }
+    }
+
+    public function filter(Request $request){
+        $h5p = App::make('LaravelH5p');
+        $editor = $h5p::$h5peditor;
+        $editor->ajax->action(H5PEditorEndpoints::FILTER, $request->get('_token') ,$request->get('libraryParameters'));
     }
 
     public function __invoke(Request $request)

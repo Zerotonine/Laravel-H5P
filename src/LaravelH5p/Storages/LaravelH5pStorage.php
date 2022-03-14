@@ -410,6 +410,7 @@ class LaravelH5pStorage implements H5PFileStorage
 
         $contentSource = $source.DIRECTORY_SEPARATOR.'content';
         $contentFiles = array_diff(scandir($contentSource), ['.', '..', 'content.json']);
+
         foreach ($contentFiles as $file) {
             if (is_dir("{$contentSource}/{$file}")) {
                 self::copyFileTree("{$contentSource}/{$file}", "{$target}/{$file}");
@@ -590,6 +591,7 @@ class LaravelH5pStorage implements H5PFileStorage
     {
         // Add filename to path
         $absolutePath = $path.'/'.$file;
+
         $newDirPath = preg_replace("/\/[^\/]+\/?$/", '', $absolutePath);
         if (!self::dirReady($newDirPath)) {
             throw new \Exception('unabletocopy');
