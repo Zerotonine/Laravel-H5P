@@ -934,11 +934,13 @@ class LaravelH5pRepository implements H5PFrameworkInterface
                     $response = $client->request('GET', $url);
                 } else {
                     $resource = fopen($options['filename'], 'w');
-                    $stream = \GuzzleHttp\Psr7\stream_for($resource);
+                    // $stream = \GuzzleHttp\Psr7\stream_for($resource);
+                    $stream = \GuzzleHttp\Psr7\Utils::streamFor($resource);
 
                     // Use safe when downloading files
                     //                $response = wp_safe_remote_get($url, $options);
-                    $response = $client->request('GET', $url, ['save_to' => $stream]);
+                    // $response = $client->request('GET', $url, ['save_to' => $stream]);
+                    $response = $client->request('GET', $url, ['sink' => $stream]);
                 }
             }
 
