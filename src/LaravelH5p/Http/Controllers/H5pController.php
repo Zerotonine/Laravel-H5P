@@ -99,6 +99,10 @@ class H5pController extends Controller
                     throw new H5PException('Invalid library.');
                 }
 
+                if(config('laravel-h5p.append_slug_with_machineName')){
+                    $content['slug'] .= '-' . $content['library']['machineName'];
+                }
+
                 // Check if library exists.
                 $content['library']['libraryId'] = $core->h5pF->getLibraryId($content['library']['machineName'], $content['library']['majorVersion'], $content['library']['minorVersion']);
                 if (!$content['library']['libraryId']) {
@@ -162,6 +166,7 @@ class H5pController extends Controller
         $editor = $h5p::$h5peditor;
 
         $settings = $h5p::get_core();
+
         $content = $h5p->get_content($id);
         $embed = $h5p->get_embed($content, $settings);
         $embed_code = $embed['embed'];
