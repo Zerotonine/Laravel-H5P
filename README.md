@@ -41,7 +41,12 @@ Add to Composer-Classmap:
 ];
 ```
 
-Link files (after first library upload on /admin/h5p/library)
+Create necessary symlinks, if it fails create the symlinks manually.
+```bash
+php artisan laravel-h5p:install
+```
+
+Link files (only necessary if the step above fails)
 
 on linux:
 ```
@@ -53,6 +58,7 @@ ln -s ../../../../storage/app/public/h5p/exports
 on windows (in cmd with admin rights or without admin rights if dev mode is turned on):
 ```
 mklink /d /j public\assets\vendor\h5p\libraries storage\app\public\h5p\libraries
+mklink /d /j public\assets\vendor\h5p\exports storage\app\public\h5p\exports
 ```
 
 You probably will need to add it to your `app/Http/Middleware/VerifyCsrfToken.php` due to H5P ajax requests without Laravel CSRF token:

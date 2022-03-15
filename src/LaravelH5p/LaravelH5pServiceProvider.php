@@ -4,6 +4,7 @@ namespace EscolaSoft\LaravelH5p;
 
 use EscolaSoft\LaravelH5p\Commands\MigrationCommand;
 use EscolaSoft\LaravelH5p\Commands\ResetCommand;
+use EscolaSoft\LaravelH5p\Commands\InstallCommand;
 use EscolaSoft\LaravelH5p\Helpers\H5pHelper;
 
 class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider
@@ -35,18 +36,24 @@ class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider
             return new H5pHelper();
         });
 
-        $this->app->singleton('command.laravel-h5p.migration', function ($app) {
-            return new MigrationCommand();
-        });
+        // $this->app->singleton('command.laravel-h5p.migration', function ($app) {
+        //     return new MigrationCommand();
+        // });
 
-        $this->app->singleton('command.laravel-h5p.reset', function ($app) {
-            return new ResetCommand();
-        });
+        // $this->app->singleton('command.laravel-h5p.reset', function ($app) {
+        //     return new ResetCommand();
+        // });
 
-        $this->commands([
-            'command.laravel-h5p.migration',
-            'command.laravel-h5p.reset',
-        ]);
+        // $this->commands([
+        //     'command.laravel-h5p.migration',
+        //     'command.laravel-h5p.reset'
+        // ]);
+
+        if($this->app->runningInConsole()){
+            $this->commands([
+                InstallCommand::class,
+            ]);
+        }
     }
 
     /**
@@ -112,6 +119,7 @@ class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider
         return [
             'command.laravel-h5p.migration',
             'command.laravel-h5p.reset',
+            'command.laravel-h5p.install'
         ];
     }
 }
