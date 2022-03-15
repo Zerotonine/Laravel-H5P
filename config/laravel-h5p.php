@@ -11,17 +11,18 @@
  */
 
 return [
-    'H5P_DEV'         => false,
-    'language'        => 'en',
-    'domain'          => 'http://localhost',
-    'h5p_public_path' => '/vendor',
-    'slug'            => 'laravel-h5p',
-    'views'           => 'h5p', // h5p view path
-    'layout'          => 'h5p.layouts.h5p', // layoute path
-    'use_router'      => 'ALL', // ALL,EXPORT,EDITOR
-    'preload_all_libraries' => false, // enable this if your server is slow when adding a new content, due to lots of SQL connections on content parameter filter, it'll reduce several load libraries connections to only 2 connections with everything and use collection filter
+    'H5P_DEV'                      => false,
+    'language'                     => 'de',
+    'domain'                       => 'http://localhost',
+    'h5p_public_path'              => '/vendor',
+    'slug'                         => 'laravel-h5p',
+    'append_slug_with_machineName' => true,
+    'views'                        => 'h5p', // h5p view path
+    'layout'                       => 'h5p.layouts.h5p', // layoute path
+    'use_router'                   => 'ALL', // ALL,EXPORT,EDITOR
+    'preload_all_libraries'        => false, // enable this if your server is slow when adding a new content, due to lots of SQL connections on content parameter filter, it'll reduce several load libraries connections to only 2 connections with everything and use collection filter
 
-    'H5P_DISABLE_AGGREGATION' => false,
+    'H5P_DISABLE_AGGREGATION'      => false,
 
     // Content screen setting
     'h5p_show_display_option'    => true,
