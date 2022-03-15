@@ -983,7 +983,8 @@ class LaravelH5pRepository implements H5PFrameworkInterface
      */
     public function isContentSlugAvailable($slug)
     {
-        return DB::select("SELECT slug FROM h5p_contents WHERE slug = ':slug'", ['slub' => $slug]);
+        // return DB::select("SELECT slug FROM h5p_contents WHERE slug = ':slug'", ['slub' => $slug]);
+        return DB::select("SELECT slug FROM h5p_contents WHERE slug = ':slug'", ['slug' => $slug]);
     }
 
     /**
