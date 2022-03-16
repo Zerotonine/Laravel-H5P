@@ -117,8 +117,8 @@ class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider
     public function provides()
     {
         return [
-            'command.laravel-h5p.migration',
-            'command.laravel-h5p.reset',
+            // 'command.laravel-h5p.migration',
+            // 'command.laravel-h5p.reset',
             'command.laravel-h5p.install'
         ];
     }
