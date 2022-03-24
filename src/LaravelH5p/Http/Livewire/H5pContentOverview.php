@@ -78,7 +78,7 @@ class H5pContentOverview extends Component
         $this->nonce = bin2hex(random_bytes(4));
         //laravel-h5p.js is listening for this...
         $contentPath = asset('storage/h5p/content/' . $id);
-        $this->emit('editorOpened', $this->nonce, $contentPath);
+        $this->emit('editorOpened', $this->nonce, $contentPath, $id);
     }
 
     public function closeEditor(){

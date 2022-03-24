@@ -62,6 +62,7 @@ Route::prefix('admin/h5p')->group(function () {
                 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@rebuildCache'
             )->name('h5p.ajax.rebuild-cache');
             Route::post('ajax/files', 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@files')->name('h5p.ajax.files');
+            // Route::post('ajax/{contentId}/files', 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@files')->name('h5p.ajax.files');
             Route::post(
                 'ajax/finish',
                 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@finish'
@@ -75,11 +76,20 @@ Route::prefix('admin/h5p')->group(function () {
             //nonce
             Route::match(['GET', 'POST'], 'ajax/{nonce}/libraries', 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@libraries');
             Route::post('ajax/{nonce}/files', 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@files');
+            Route::post('ajax/{nonce}/{contentId}/files', 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@files');
             Route::get('ajax/{nonce}/libraries', 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@libraries');
+
+            Route::get('ajax/{nonce}/{contentId}/libraries', 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@libraries');
+
             Route::get('ajax/{nonce}/single-libraries', 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@singleLibrary');
             //new
             Route::get(
                 'ajax/{nonce}/content-type-cache',
+                'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@contentTypeCache'
+            )->name('h5p.ajax.content-type-cache');
+
+            Route::get(
+                'ajax/{nonce}/{contentId}/content-type-cache',
                 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@contentTypeCache'
             )->name('h5p.ajax.content-type-cache');
 

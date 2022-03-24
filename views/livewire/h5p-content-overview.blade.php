@@ -20,9 +20,9 @@
     </x-lh5p::h5p-deletion-modal>
     @endif
 
-    @if($showEditor && $contentId !== null)
+    @if($showEditor && $contentId !== null) {{-- edit mode --}}
         <x-lh5p::h5p-editor-modal :contentId="$contentId" :nonce="$nonce" />
-    @elseif($showEditor && $contentId === null)
+    @elseif($showEditor && $contentId === null) {{-- create mode --}}
         <x-lh5p::h5p-editor-modal :nonce="$nonce" />
     @endif
 

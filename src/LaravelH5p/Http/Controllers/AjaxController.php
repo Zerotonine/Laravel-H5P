@@ -93,12 +93,12 @@ class AjaxController extends Controller
         $editor->ajax->action(H5PEditorEndpoints::LIBRARY_UPLOAD, $request->get('_token'), $filePath, $request->get('contentId'));
     }
 
-    public function files(Request $request, $nonce = null)
+    public function files(Request $request, $nonce = null, $contentId = null)
     {
         $filePath = $request->file('file');
         $h5p = App::make('LaravelH5p');
         $editor = $h5p::$h5peditor;
-        $editor->ajax->action(H5PEditorEndpoints::FILES, $request->get('_token'), $request->get('contentId'));
+        $editor->ajax->action(H5PEditorEndpoints::FILES, $request->get('_token'), !$contentId ? $request->get('contentId') : $contentId);
 
 
         if ($nonce) {
