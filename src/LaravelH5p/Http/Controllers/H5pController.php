@@ -73,11 +73,11 @@ class H5pController extends Controller
         $core = $h5p::$core;
         $editor = $h5p::$h5peditor;
 
-        $this->validate($request, [
-            'action' => 'required',
-        ], [], [
-            'action' => trans('laravel-h5p.content.action'),
-        ]);
+        // $this->validate($request, [
+        //     'action' => 'required',
+        // ], [], [
+        //     'action' => trans('laravel-h5p.content.action'),
+        // ]);
 
         $oldLibrary = null;
         $oldParams = null;
@@ -93,7 +93,7 @@ class H5pController extends Controller
         $content['filtered'] = '';
 
         try {
-            if ($request->get('action') === 'create') {
+            if ($request->get('action') === 'create' || !$request->get('action')) {
                 $content['library'] = $core->libraryFromString($request->get('library'));
                 if (!$content['library']) {
                     throw new H5PException('Invalid library.');
@@ -145,21 +145,24 @@ class H5pController extends Controller
 
             if ($return_id) {
                 return redirect()
-                    ->route('h5p.edit', $return_id)
+                    // ->route('h5p.edit', $return_id)
+                    ->back()
                     ->with('success', trans('laravel-h5p.content.created'));
             } else {
                 return redirect()
-                    ->route('h5p.create')
+                    // ->route('h5p.create')
+                    ->back()
                     ->with('fail', trans('laravel-h5p.content.can_not_created'));
             }
         } catch (H5PException $ex) {
             return redirect()
-                ->route('h5p.create')
+                // ->route('h5p.create')
+                ->back()
                 ->with('fail', trans('laravel-h5p.content.can_not_created'));
         }
     }
 
-    public function edit(Request $request, $id)
+    public function edit(Request $request, $contentId)
     {
         $h5p = App::make('LaravelH5p');
         $core = $h5p::$core;
@@ -167,7 +170,7 @@ class H5pController extends Controller
 
         $settings = $h5p::get_core();
 
-        $content = $h5p->get_content($id);
+        $content = $h5p->get_content($contentId);
         $embed = $h5p->get_embed($content, $settings);
         $embed_code = $embed['embed'];
         $settings = $embed['settings'];
@@ -195,24 +198,24 @@ class H5pController extends Controller
         event(new H5pEvent('content', 'edit', $content['id'], $content['title'], $content['library']['name'], $content['library']['majorVersion'] . '.' . $content['library']['minorVersion']));
 
         $user = Auth::user();
-
+        $id = $contentId;
         return view('h5p.content.edit', compact('settings', 'user', 'id', 'content', 'library', 'parameters', 'display_options'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $contentId)
     {
         $h5p = App::make('LaravelH5p');
         $core = $h5p::$core;
         $editor = $h5p::$h5peditor;
 
-        $this->validate($request, [
-            'action' => 'required',
-        ], [], [
-            'action' => trans('laravel-h5p.content.action'),
-        ]);
+        // $this->validate($request, [
+        //     'action' => 'required',
+        // ], [], [
+        //     'action' => trans('laravel-h5p.content.action'),
+        // ]);
 
         $event_type = 'update';
-        $content = $h5p::get_content($id);
+        $content = $h5p::get_content($contentId);
         $content['embed_type'] = 'div';
         $content['user_id'] = Auth::id();
         $content['disable'] = $request->get('disable') ? $request->get('disable') : false;
@@ -222,7 +225,7 @@ class H5pController extends Controller
         $oldParams = json_decode($content['params']);
 
         try {
-            if ($request->get('action') === 'create') {
+            if ($request->get('action') === 'create' || !$request->get('action')) {
                 $content['library'] = $core->libraryFromString($request->get('library'));
                 if (!$content['library']) {
                     throw new H5PException('Invalid library.');
@@ -263,6 +266,7 @@ class H5pController extends Controller
                 event(new H5pEvent('content', $event_type, $content['id'], $content['title'], $content['library']['machineName'], $content['library']['majorVersion'], $content['library']['minorVersion']));
 
                 $return_id = $content['id'];
+
             } elseif ($request->get('action') === 'upload') {
                 $content['uploaded'] = true;
 
@@ -274,7 +278,8 @@ class H5pController extends Controller
 
             if ($return_id) {
                 return redirect()
-                    ->route('h5p.edit', $return_id)
+                    ->back()
+                    // ->route('h5p.edit', $return_id)
                     ->with('success', trans('laravel-h5p.content.updated'));
             } else {
                 return redirect()
@@ -301,7 +306,6 @@ class H5pController extends Controller
 
         // create event dispatch
         event(new H5pEvent('content', null, $content['id'], $content['title'], $content['library']['name'], $content['library']['majorVersion'], $content['library']['minorVersion']));
-
         //     return view('h5p.content.edit', compact("settings", 'user', 'id', 'content', 'library', 'parameters', 'display_options'));
         return response()
             ->view('h5p.content.show', compact('settings', 'user', 'embed_code'))
@@ -330,14 +334,31 @@ class H5pController extends Controller
         ]);
     }
 
-    public function destroy(Request $request, $id)
+    // public function destroy(Request $request, $id)
+    // {
+    //     try {
+    //         $content = H5pContent::findOrFail($id);
+    //         $content->delete();
+    //     } catch (Exception $ex) {
+    //         return trans('laravel-h5p.content.can_not_delete');
+    //     }
+    // }
+
+    public static function destroy($id)
     {
-        try {
-            $content = H5pContent::findOrFail($id);
+        $content = H5pContent::find($id);
+
+        if($content){
+            $filename = $content->slug . '-' . $content->id . '.h5p';
+            $path = storage_path('app/public/h5p/exports/'.$filename);
+
+            if(file_exists($path)){
+                unlink($path);
+            }
             $content->delete();
-        } catch (Exception $ex) {
-            return trans('laravel-h5p.content.can_not_delete');
+            return true;
         }
+        return false;
     }
 
     private function get_disabled_content_features($core, &$content)

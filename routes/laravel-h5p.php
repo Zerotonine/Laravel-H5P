@@ -97,6 +97,11 @@ Route::prefix('admin/h5p')->group(function () {
                 'ajax/{nonce}/filter',
                 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@filter'
             )->name('h5p.ajax.filter');
+
+            Route::post(
+                'ajax/filter',
+                'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@filter'
+            )->name('h5p.ajax.filter');
         }
 
         // export

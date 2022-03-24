@@ -21,7 +21,7 @@
                             <div id="laravel-h5p-editor">{{ trans('laravel-h5p.content.loading_content') }}</div>
                         </div>
 
-                        @if ($errors->has('parameters'))                 
+                        @if ($errors->has('parameters'))
                         <span class="help-block">
                             {{ $errors->first('parameters') }}
                         </span>
@@ -61,7 +61,7 @@
                             <input type="radio" name="action" value="create" class="laravel-h5p-type" checked="checked"/>{{ trans('laravel-h5p.content.action_create') }}
                         </label>
 
-{{-- 
+{{--
                         @if ($errors->has('action'))
                         <span class="help-block">
                             {{ $errors->first('action') }}
@@ -198,6 +198,7 @@
 @endforeach
 
 <script>
+
 H5P.jQuery(document).ready(function () {
 
     H5P.jQuery('.h5p-delete').on('click', function () {

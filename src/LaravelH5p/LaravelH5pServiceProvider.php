@@ -5,7 +5,12 @@ namespace EscolaSoft\LaravelH5p;
 use EscolaSoft\LaravelH5p\Commands\MigrationCommand;
 use EscolaSoft\LaravelH5p\Commands\ResetCommand;
 use EscolaSoft\LaravelH5p\Commands\InstallCommand;
+use Illuminate\Support\Facades\Blade;
 use EscolaSoft\LaravelH5p\Helpers\H5pHelper;
+use EscolaSoft\LaravelH5p\Http\Livewire\H5pEditor;
+use EscolaSoft\LaravelH5p\Http\Livewire\H5pContentOverview;
+use EscolaSoft\LaravelH5p\Http\Livewire\H5pFlash;
+use Livewire\Livewire;
 
 class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider
 {
@@ -64,6 +69,13 @@ class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider
     public function boot(\Illuminate\Routing\Router $router)
     {
         $this->loadRoutesFrom(__DIR__.'/../../routes/laravel-h5p.php');
+
+        $this->loadViewsFrom(__DIR__.'/../../views/livewire', 'lh5p');
+        $this->loadViewsFrom(__DIR__.'/../../views/components', 'lh5p');
+        Livewire::component('h5p-editor', H5pEditor::class);
+        Livewire::component('h5p-content-overview', H5pContentOverview::class);
+        Livewire::component('h5p-flash', H5pFlash::class);
+        Blade::componentNamespace('EscolaSoft\\LaravelH5p\\Components', 'lh5p');
 
         // config
         $this->publishes([

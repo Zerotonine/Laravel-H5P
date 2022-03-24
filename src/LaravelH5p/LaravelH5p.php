@@ -222,7 +222,7 @@ class LaravelH5p
         $token = csrf_token();
         $settings = [
             'baseUrl'            => config('laravel-h5p.domain'),
-            'url'                => 'http://localhost:8000/storage/h5p', // for uploaded
+            // 'url'                => asset('assets/vendor/h5p'), // for uploaded
             'url'                => asset('storage/h5p'),
 
 //            'url'                => self::get_h5p_storage(). '?_token=' . $token , // for uploaded

@@ -34,6 +34,7 @@ class EditorStorage implements H5peditorStorage
 
     public function getAvailableLanguages($machineName, $majorVersion, $minorVersion)
     {
+        //TODO: implement this shit, will probably fix this annoying "missing translation for core library" message on editor load...
         return [];
     }
 

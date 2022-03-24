@@ -12,6 +12,7 @@
 
 namespace EscolaSoft\LaravelH5p\Storages;
 
+use Error;
 use H5PFileStorage;
 
 //use Illuminate\Filesystem\Filesystem;
@@ -73,7 +74,6 @@ class LaravelH5pStorage implements H5PFileStorage
     public function saveContent($source, $content)
     {
         $dest = "{$this->path}/content/{$content['id']}";
-
         // Remove any old content
         \H5PCore::deleteFileTree($dest);
 
