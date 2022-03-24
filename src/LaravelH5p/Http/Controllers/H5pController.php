@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use EscolaSoft\LaravelH5p\Exceptions\H5PException;
 use Response;
 use EscolaSoft\LaravelH5p\Eloquents\H5pTmpfile;
+use EscolaSoft\LaravelH5p\Helpers\FileHelper;
 
 class H5pController extends Controller
 {
@@ -350,10 +351,15 @@ class H5pController extends Controller
 
         if($content){
             $filename = $content->slug . '-' . $content->id . '.h5p';
+            // $path = storage_path('app/public/h5p/exports/'.$filename);
             $path = storage_path('app/public/h5p/exports/'.$filename);
+            $contentPath = storage_path('app/public/h5p/content/'.$id);
 
             if(file_exists($path)){
                 unlink($path);
+            }
+            if(file_exists($contentPath)){
+                FileHelper::deleteDir($contentPath);
             }
             $content->delete();
             return true;
