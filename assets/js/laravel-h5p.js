@@ -8,8 +8,8 @@
  *
  */
 document.addEventListener('livewire:load', () => {
-    window.livewire.on('editorOpened', (nonce, contentPath) => {
-        initEditor(nonce, contentPath);
+    window.livewire.on('editorOpened', (nonce, contentPath, id) => {
+        initEditor(nonce, contentPath, id);
     });
 }, false);
 
@@ -18,7 +18,7 @@ document.addEventListener('livewire:load', () => {
 // },false);
 
 
-const initEditor = (nonce, contentPath) => {
+const initEditor = (nonce, contentPath, id) => {
     (function ($) {
         ns.init = function () {
             ns.$ = H5P.jQuery;
@@ -27,7 +27,7 @@ const initEditor = (nonce, contentPath) => {
                 ns.basePath = H5PIntegration.editor.libraryUrl;
                 ns.fileIcon = H5PIntegration.editor.fileIcon;
                 if(nonce){
-                    ns.ajaxPath = H5PIntegration.editor.ajaxPath + nonce + '/';
+                    ns.ajaxPath = H5PIntegration.editor.ajaxPath + nonce + (id ? `/${id}/` : '/');
                 } else {
                     ns.ajaxPath = H5PIntegration.editor.ajaxPath;
                 }
@@ -37,6 +37,7 @@ const initEditor = (nonce, contentPath) => {
                 } else {
                     ns.filesPath = H5PIntegration.editor.filesPath;
                 }
+
                 ns.apiVersion = H5PIntegration.editor.apiVersion;
                 // Semantics describing what copyright information can be stored for media.
                 ns.copyrightSemantics = H5PIntegration.editor.copyrightSemantics;
@@ -50,10 +51,8 @@ const initEditor = (nonce, contentPath) => {
                 }
 
                 var h5peditor;
-                // var $upload = $('.laravel-h5p-upload').parents('.laravel-h5p-upload-container');
                 var $editor = $('#laravel-h5p-editor');
                 var $create = $('#laravel-h5p-create').hide();
-                // var $type = $('.laravel-h5p-type');
                 var $params = $('#laravel-h5p-parameters');
                 var $library = $('#laravel-h5p-library');
                 var library = $library.val();
@@ -63,24 +62,6 @@ const initEditor = (nonce, contentPath) => {
                 }
                 $create.show();
 
-                // $type.change(function () {
-                //     if ($type.filter(':checked').val() === 'upload') {
-                //         $create.hide();
-                //         $upload.show();
-                //     } else {
-                //         $upload.hide();
-                //         if (h5peditor === undefined) {
-                //             h5peditor = new ns.Editor(library, $params.val(), $editor[0]);
-                //         }
-                //         $create.show();
-                //     }
-                // });
-
-                // if ($type.filter(':checked').val() === 'upload') {
-                //     $type.change();
-                // } else {
-                //     $type.filter('input[value="create"]').attr('checked', true).change();
-                // }
 
                 $('#laravel-h5p-form').submit(function () {
                     if (h5peditor !== undefined) {
@@ -121,7 +102,6 @@ const initEditor = (nonce, contentPath) => {
 
 
         ns.getAjaxUrl = function (action, parameters) {
-            // var url = H5PIntegration.editor.ajaxPath + action;
             let url = ns.ajaxPath + action;
             if (parameters !== undefined) {
             var separator = url.indexOf('?') === -1 ? '?' : '&';
