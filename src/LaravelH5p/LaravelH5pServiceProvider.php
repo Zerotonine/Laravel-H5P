@@ -10,6 +10,7 @@ use EscolaSoft\LaravelH5p\Helpers\H5pHelper;
 use EscolaSoft\LaravelH5p\Http\Livewire\H5pEditor;
 use EscolaSoft\LaravelH5p\Http\Livewire\H5pContentOverview;
 use EscolaSoft\LaravelH5p\Http\Livewire\H5pFlash;
+use EscolaSoft\LaravelH5p\Http\Livewire\H5pLibraryAdministration;
 use Livewire\Livewire;
 
 class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider
@@ -75,6 +76,7 @@ class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider
         Livewire::component('h5p-editor', H5pEditor::class);
         Livewire::component('h5p-content-overview', H5pContentOverview::class);
         Livewire::component('h5p-flash', H5pFlash::class);
+        Livewire::component('h5p-library-administration', H5pLibraryAdministration::class);
         Blade::componentNamespace('EscolaSoft\\LaravelH5p\\Components', 'lh5p');
 
         // config
@@ -117,12 +119,12 @@ class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider
             app_path('/../vendor/zerotonine/h5p-core/images')     => public_path('assets/vendor/h5p/h5p-core/images'),
             app_path('/../vendor/zerotonine/h5p-core/js')         => public_path('assets/vendor/h5p/h5p-core/js'),
             app_path('/../vendor/zerotonine/h5p-core/styles')     => public_path('assets/vendor/h5p/h5p-core/styles'),
-            app_path('/../vendor/h5p/h5p-editor/ckeditor') => public_path('assets/vendor/h5p/h5p-editor/ckeditor'),
-            app_path('/../vendor/h5p/h5p-editor/images')   => public_path('assets/vendor/h5p/h5p-editor/images'),
-            app_path('/../vendor/h5p/h5p-editor/language') => public_path('assets/vendor/h5p/h5p-editor/language'),
-            app_path('/../vendor/h5p/h5p-editor/libs')     => public_path('assets/vendor/h5p/h5p-editor/libs'),
-            app_path('/../vendor/h5p/h5p-editor/scripts')  => public_path('assets/vendor/h5p/h5p-editor/scripts'),
-            app_path('/../vendor/h5p/h5p-editor/styles')   => public_path('assets/vendor/h5p/h5p-editor/styles'),
+            app_path('/../vendor/zerotonine/h5p-editor/images')   => public_path('assets/vendor/h5p/h5p-editor/images'),
+            app_path('/../vendor/zerotonine/h5p-editor/ckeditor') => public_path('assets/vendor/h5p/h5p-editor/ckeditor'),
+            app_path('/../vendor/zerotonine/h5p-editor/language') => public_path('assets/vendor/h5p/h5p-editor/language'),
+            app_path('/../vendor/zerotonine/h5p-editor/libs')     => public_path('assets/vendor/h5p/h5p-editor/libs'),
+            app_path('/../vendor/zerotonine/h5p-editor/scripts')  => public_path('assets/vendor/h5p/h5p-editor/scripts'),
+            app_path('/../vendor/zerotonine/h5p-editor/styles')   => public_path('assets/vendor/h5p/h5p-editor/styles'),
         ], 'public');
     }
 

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Log;
 
+
 class LibraryController extends Controller
 {
     public function index(Request $request)
@@ -82,7 +83,7 @@ class LibraryController extends Controller
             'pageXOfY'              => trans('laravel-h5p.library.pageXOfY'),
         ];
         $notCached = $interface->getNumNotFiltered();
-        if ($notCached) {
+        if (!$notCached) {
             $settings['libraryInfo']['notCached'] = $this->get_not_cached_settings($notCached);
         } else {
             // List content which uses this library
@@ -91,7 +92,7 @@ class LibraryController extends Controller
             foreach ($contents as $content) {
                 $settings['libraryInfo']['content'][] = [
                     'title' => $content->title,
-                    'url'   => route('h5p.show', ['id' => $content->id]),
+                    'url'   => route('h5p.show', $content->id),
                 ];
             }
         }
@@ -102,7 +103,7 @@ class LibraryController extends Controller
             'content_library' => $library->runnable ? trans('laravel-h5p.common.yes') : trans('laravel-h5p.common.no'),
             'used'            => (isset($contents) ? count($contents) : trans('laravel-h5p.common.na')),
         ];
-
+        //TODO: what? this file doesn't exists
         $required_files = $this->assets(['js/h5p-library-details.js']);
 
         return view('h5p.library.show', compact('settings', 'required_files', 'library'));
@@ -151,25 +152,44 @@ class LibraryController extends Controller
             ->with('error', trans('laravel-h5p.library.can_not_updated'));
     }
 
-    public function destroy(Request $request)
+    // public function destroy(Request $request)
+    // {
+    //     $library = H5pLibrary::findOrFail($request->get('id'));
+
+    //     $h5p = App::make('LaravelH5p');
+    //     $interface = $h5p::$interface;
+
+    //     // Error if in use
+    //     $usage = $interface->getLibraryUsage($library);
+    //     if ($usage['content'] !== 0 || $usage['libraries'] !== 0) {
+    //         return redirect()->route('h5p.library.index')
+    //             ->with('error', trans('laravel-h5p.library.used_library_can_not_destroyed'));
+    //     }
+
+    //     $interface->deleteLibrary($library);
+
+    //     return redirect()
+    //         ->route('h5p.library.index')
+    //         ->with('success', trans('laravel-h5p.library.destroyed'));
+    // }
+
+
+    public static function destroy($id)
     {
-        $library = H5pLibrary::findOrFail($request->get('id'));
+        $library = H5pLibrary::findOrFail($id);
 
         $h5p = App::make('LaravelH5p');
         $interface = $h5p::$interface;
-
+        //TODO: check if numContent is necessary, usage['content'] gets updatet on first show of a new content element this should be done on creation
         // Error if in use
-        $usage = $interface->getLibraryUsage($library);
-        if ($usage['content'] !== 0 || $usage['libraries'] !== 0) {
-            return redirect()->route('h5p.library.index')
-                ->with('error', trans('laravel-h5p.library.used_library_can_not_destoroied'));
+        $usage = $interface->getLibraryUsage($id);
+        $numContent = $library->numContent();
+        if ($usage['content'] !== 0 || $usage['libraries'] !== 0 || $numContent !== 0) {
+            return ['result' => false, 'message' => trans('laravel-h5p.library.used_library_can_not_destroyed')];
         }
-
         $interface->deleteLibrary($library);
 
-        return redirect()
-            ->route('h5p.library.index')
-            ->with('success', trans('laravel-h5p.library.destroyed'));
+        return ['result' => true, 'message' => trans('laravel-h5p.library.library_destroyed')];
     }
 
     public function clear(Request $request)
@@ -214,7 +234,7 @@ class LibraryController extends Controller
         return response()->json($entry);
     }
 
-    private function assets($scripts = [], $styles = [])
+    public static function assets($scripts = [], $styles = [])
     {
         $prefix = 'assets/vendor/h5p/h5p-core/';
         $return = [
@@ -313,7 +333,7 @@ class LibraryController extends Controller
      *
      * @since 1.1.0
      */
-    private function get_not_cached_settings($num)
+    public static function get_not_cached_settings($num)
     {
         return [
             'num'      => $num,

@@ -77,8 +77,9 @@
                 <tbody class="block md:table-row-group">
 
                     @unless(count($this->entries) > 0)
-                    {{-- //TODO:stylen...  --}}
-                    <tr><td colspan="5" class="h5p-noresult">{{ trans('laravel-h5p.common.no-result') }}</td></tr>
+                    <tr class="bg-gray-300 border border-grey-500 md:border-none block md:table-row">
+                        <td colspan="5" class="p-2 md:border md:border-grey-500 text-center font-bold">{{ trans('laravel-h5p.common.no-result') }}</td>
+                    </tr>
                     @endunless
 
                     @foreach($this->entries as $n => $entry)

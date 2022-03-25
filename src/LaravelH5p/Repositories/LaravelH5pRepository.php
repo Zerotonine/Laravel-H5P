@@ -225,6 +225,9 @@ class LaravelH5pRepository implements H5PFrameworkInterface
      */
     public function getLibraryUsage($id, $skipContent = false)
     {
+        //TODO: check if something's wrong here, instance dependency count is probably not updating correctly on content creation
+        //for now skipContent is set hard to false....otherwise you only get -1 which makes no sense
+        $skipContent = false;
         if ($skipContent) {
             $content = -1;
         } else {

@@ -11,7 +11,7 @@
             <ul>
                 <li class=''>{{ trans('laravel-h5p.library.version') }} : {{ $settings['libraryInfo']['info']['version'] }}</li>
                 <li class=''>{{ trans('laravel-h5p.h5p.fullscreen') }} : {{ $settings['libraryInfo']['info']['fullscreen'] }}</li>
-                <li class=''> {{ trans('laravel-h5p.library.contents') }}: {{ $settings['libraryInfo']['info']['content_library'] }}</li>
+                <li class=''> {{ trans('laravel-h5p.library.runnable') }}: {{ $settings['libraryInfo']['info']['content_library'] }}</li>
                 <li class=''>{{ trans('laravel-h5p.library.contents_using_it') }}  : {{ $settings['libraryInfo']['info']['used'] }}</li>
             </ul>
 
