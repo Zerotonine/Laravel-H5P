@@ -68,7 +68,7 @@ return [
         'destoryed'                       => 'Entfernt.',
         'clear'                           => 'Bereinigen',
         'can_not_destroy'                 => 'Kann nicht entfernen.',
-        'used_library_can_not_destoroied' => 'This Library is used by content or other libraries and can therefore not be deleted. ',
+        'used_library_can_not_destroyed' => 'This Library is used by content or other libraries and can therefore not be deleted. ',
         'confirm_clear_type_cache'        => 'Are you sure remove a content type cache?',
         'confirm_destroy'                 => 'Are you sure remove a library?',
         'noContent'                       => 'No content is using this library',

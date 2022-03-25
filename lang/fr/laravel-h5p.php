@@ -60,7 +60,7 @@ return [
         'destoryed'                       => 'Supprimé.',
         'clear'                           => 'Effacer',
         'can_not_destroy'                 => 'Impossible de supprimer.',
-        'used_library_can_not_destoroied' => "Cette bibliothèque est utilisée par le contenu ou d'autres bibliothèques et ne peut donc pas être supprimée. ",
+        'used_library_can_not_destroyed' => "Cette bibliothèque est utilisée par le contenu ou d'autres bibliothèques et ne peut donc pas être supprimée. ",
         'confirm_destory'                 => 'Êtes-vous sûr de supprimer une bibliothèque?',
         'noContent'                       => 'Aucun contenu n\'utilise cette bibliothèque',
         'contentHeader'                   => 'Contenu à l\'aide de cette bibliothèque',

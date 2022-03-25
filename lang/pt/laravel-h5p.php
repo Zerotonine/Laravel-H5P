@@ -68,7 +68,7 @@ return [
         'destoryed'                       => 'Removeido.',
         'clear'                           => 'Limpar',
         'can_not_destroy'                 => 'Não foi possível remover.',
-        'used_library_can_not_destoroied' => 'Essa biblioteca está sendo utilizada por um conteúdo ou outras bibliotecas and não pode ser apagada. ',
+        'used_library_can_not_destroyed' => 'Essa biblioteca está sendo utilizada por um conteúdo ou outras bibliotecas and não pode ser apagada. ',
         'confirm_clear_type_cache'        => 'Você tem certeza que deseja remover o cache de tipo de conteúdo?',
         'confirm_destroy'                 => 'Você tem certeza que dejeja remover uma biblioteca?',
         'noContent'                       => 'Nenhum conteúdo está utilizando essa biblioteca',
