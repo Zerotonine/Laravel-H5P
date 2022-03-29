@@ -85,12 +85,20 @@ class AjaxController extends Controller
         $editor->ajax->action(H5PEditorEndpoints::LIBRARY_INSTALL, $request->get('_token'), $request->get('id'));
     }
 
-    public function libraryUpload(Request $request)
+    // public function libraryUpload(Request $request)
+    // {
+    //     $filePath = $request->file('h5p')->getPathName();
+    //     $h5p = App::make('LaravelH5p');
+    //     $editor = $h5p::$h5peditor;
+    //     $editor->ajax->action(H5PEditorEndpoints::LIBRARY_UPLOAD, $request->get('_token'), $filePath, $request->get('contentId'));
+    // }
+
+    public function libraryUpload(Request $request, $nonce = null)
     {
         $filePath = $request->file('h5p')->getPathName();
         $h5p = App::make('LaravelH5p');
         $editor = $h5p::$h5peditor;
-        $editor->ajax->action(H5PEditorEndpoints::LIBRARY_UPLOAD, $request->get('_token'), $filePath, $request->get('contentId'));
+        $editor->ajax->action(H5PEditorEndpoints::LIBRARY_UPLOAD, $request->get('_token'), $filePath, $request->get('contentId'), $nonce);
     }
 
     public function files(Request $request, $nonce = null, $contentId = null)
