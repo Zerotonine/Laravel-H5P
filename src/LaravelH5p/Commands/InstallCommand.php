@@ -18,6 +18,7 @@ class InstallCommand extends Command
             mkdir(storage_path('/app/public/h5p'), 0777);
             mkdir(storage_path('/app/public/h5p/exports'), 0777);
             mkdir(storage_path('/app/public/h5p/libraries'), 0777);
+            mkdir(storage_path('/app/public/h5p/editor'), 0777);
         } catch (\Throwable $th) {
             $this->warn('Could not create folders.');
             $this->line($th);
@@ -28,6 +29,7 @@ class InstallCommand extends Command
         try {
             symlink(storage_path('/app/public/h5p/exports'), public_path('/assets/vendor/h5p/exports'));
             symlink(storage_path('/app/public/h5p/libraries'), public_path('/assets/vendor/h5p/libraries'));
+            symlink(storage_path('/app/public/h5p/editor'), public_path('/assets/vendor/h5p/editor'));
         } catch (\Throwable $th) {
             $this->warn("Could not create symlinks, please check the readme for further instructions.");
         }
