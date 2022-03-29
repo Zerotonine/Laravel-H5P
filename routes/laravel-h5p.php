@@ -53,10 +53,10 @@ Route::prefix('admin/h5p')->group(function () {
                 'ajax/library-install',
                 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@libraryInstall'
             )->name('h5p.ajax.library-install');
-            Route::post(
-                'ajax/library-upload',
-                'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@libraryUpload'
-            )->name('h5p.ajax.library-upload');
+            // Route::post(
+            //     'ajax/library-upload',
+            //     'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@libraryUpload'
+            // )->name('h5p.ajax.library-upload');
             Route::post(
                 'ajax/rebuild-cache',
                 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@rebuildCache'
