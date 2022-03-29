@@ -89,18 +89,22 @@ class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider
         );
 
         // language
+        // $this->publishes([
+        //     __DIR__.'/../../lang/en/laravel-h5p.php' => resource_path('lang/en/laravel-h5p.php'),
+        // ], 'language');
+        // $this->publishes([
+        //     __DIR__.'/../../lang/fr/laravel-h5p.php' => resource_path('lang/fr/laravel-h5p.php'),
+        // ], 'language');
+        // $this->publishes([
+        //     __DIR__.'/../../lang/ar/laravel-h5p.php' => resource_path('lang/ar/laravel-h5p.php'),
+        // ], 'language');
+        // $this->publishes([
+        //     __DIR__.'/../../lang/pt/laravel-h5p.php' => resource_path('lang/pt/laravel-h5p.php'),
+        // ], 'language');
         $this->publishes([
-            __DIR__.'/../../lang/en/laravel-h5p.php' => resource_path('lang/en/laravel-h5p.php'),
+            __DIR__.'/../../lang' => $this->app->langPath(),
         ], 'language');
-        $this->publishes([
-            __DIR__.'/../../lang/fr/laravel-h5p.php' => resource_path('lang/fr/laravel-h5p.php'),
-        ], 'language');
-        $this->publishes([
-            __DIR__.'/../../lang/ar/laravel-h5p.php' => resource_path('lang/ar/laravel-h5p.php'),
-        ], 'language');
-        $this->publishes([
-            __DIR__.'/../../lang/pt/laravel-h5p.php' => resource_path('lang/pt/laravel-h5p.php'),
-        ], 'language');
+
 
         // views
         $this->publishes([
