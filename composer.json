@@ -33,7 +33,7 @@
     },
     "require": {
         "php": "^7.2|^8.0",
-        "laravel/framework": "7.*|8.*",
+        "laravel/framework": "8.*|9.*",
         "laravelcollective/html": ">=6.0.0",
         "zerotonine/h5p-core": "dev-master",
         "zerotonine/h5p-editor": "dev-master",
