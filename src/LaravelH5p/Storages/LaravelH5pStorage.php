@@ -410,11 +410,13 @@ class LaravelH5pStorage implements H5PFileStorage
 
         $contentSource = $source.DIRECTORY_SEPARATOR.'content';
         $contentFiles = array_diff(scandir($contentSource), ['.', '..', 'content.json']);
+        $files = [];
 
         foreach ($contentFiles as $file) {
             if (is_dir("{$contentSource}/{$file}")) {
-                self::copyFileTree("{$contentSource}/{$file}", "{$target}/{$file}");
+                $files = self::copyFileTree("{$contentSource}/{$file}", "{$target}/{$file}");
             } else {
+                array_push($files, $file);
                 copy("{$contentSource}/{$file}", "{$target}/{$file}");
             }
         }
@@ -424,8 +426,9 @@ class LaravelH5pStorage implements H5PFileStorage
         $contentJson = $this->getContent($contentSource.DIRECTORY_SEPARATOR.'content.json');
 
         return (object) [
-            'h5pJson'     => $h5pJson,
-            'contentJson' => $contentJson,
+            'h5pJson'      => $h5pJson,
+            'contentJson'  => $contentJson,
+            'contentFiles' => $files,
         ];
     }
 
@@ -483,8 +486,8 @@ class LaravelH5pStorage implements H5PFileStorage
      *
      * @throws Exception Unable to copy the file
      *
-     * @return bool
-     *              Indicates if the directory existed.
+     * @return array
+     *              array with the names of the copied files.
      */
     private static function copyFileTree($source, $destination)
     {
@@ -493,6 +496,8 @@ class LaravelH5pStorage implements H5PFileStorage
         }
 
         $ignoredFiles = self::getIgnoredFiles("{$source}/.h5pignore");
+
+        $files = [];
 
         $dir = opendir($source);
         if ($dir === false) {
@@ -506,11 +511,14 @@ class LaravelH5pStorage implements H5PFileStorage
                 if (is_dir("{$source}/{$file}")) {
                     self::copyFileTree("{$source}/{$file}", "{$destination}/{$file}");
                 } else {
+                    preg_match("/[^\/]+(?=\/?$)/", $source, $matches);
+                    array_push($files, "{$matches[0]}/{$file}");
                     copy("{$source}/{$file}", "{$destination}/{$file}");
                 }
             }
         }
         closedir($dir);
+        return $files;
     }
 
     /**
