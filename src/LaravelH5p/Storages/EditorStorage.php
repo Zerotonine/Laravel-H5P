@@ -144,9 +144,15 @@ class EditorStorage implements H5peditorStorage
         DB::table('h5p_tmpfiles')->where('path', $fileId)->delete();
     }
 
-    public static function markFileForCleanup($file, $content_id)
+    public static function markFileForCleanup($file, $content_id, $nonce = null)
     {
         $h5p = App::make('LaravelH5p');
+
+        if(is_string($file)){
+            H5pTmpfile::create(['path' => empty($content_id) ? "/editor/{$file}" : "/content/{$file}", 'nonce' => $nonce, 'created_at' => time()]);
+            return;
+        }
+
         $path = '';
         if (empty($content_id)) {
             // Should be in editor tmp folder
@@ -155,6 +161,7 @@ class EditorStorage implements H5peditorStorage
             // Should be in content folder
             $path .= '/content/'.$content_id;
         }
+
         // Add file type to path
         $path .= '/'.$file->getType().'s';
         // Add filename to path
