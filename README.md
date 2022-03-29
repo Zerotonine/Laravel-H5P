@@ -53,12 +53,14 @@ on linux:
 cd public/assets/vendor/h5p
 ln -s ../../../../storage/app/public/h5p/libraries
 ln -s ../../../../storage/app/public/h5p/exports
+ln -s ../../../../storage/app/public/h5p/editor
 ```
 
 on windows (in cmd with admin rights or without admin rights if dev mode is turned on):
 ```
 mklink /d /j public\assets\vendor\h5p\libraries storage\app\public\h5p\libraries
 mklink /d /j public\assets\vendor\h5p\exports storage\app\public\h5p\exports
+mklink /d /j public\assets\vendor\h5p\editor storage\app\public\h5p\editor
 ```
 
 You probably will need to add it to your `app/Http/Middleware/VerifyCsrfToken.php` due to H5P ajax requests without Laravel CSRF token:
