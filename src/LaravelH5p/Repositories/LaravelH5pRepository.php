@@ -58,6 +58,26 @@ class LaravelH5pRepository implements H5PFrameworkInterface
     {
     }
 
+    public function replaceContentHubMetadataCache($metadata, $lang){
+
+    }
+
+    public function getContentHubMetadataCache($lang = 'en'){
+
+    }
+
+    public function getContentMetadataChecked(){
+
+    }
+
+    public function getContentHubMetadataChecked($lang = 'en'){
+
+    }
+
+    public function setContentHubMetadataChecked($time, $lang = 'en'){
+
+    }
+
     /**
      * Implements setErrorMessage.
      */
@@ -915,7 +935,7 @@ class LaravelH5pRepository implements H5PFrameworkInterface
     /**
      * Implements fetchExternalData.
      */
-    public function fetchExternalData($url, $data = null, $blocking = true, $stream = null)
+    public function fetchExternalData($url, $data = null, $blocking = true, $stream = null, $fullData = false, $headers = [], $files = [], $method = 'POST')
     {
         @set_time_limit(0);
         $options = [
