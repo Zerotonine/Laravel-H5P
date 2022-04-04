@@ -197,6 +197,7 @@ class LaravelH5p
             }
         }
 
+
         if ($embed === 'div') {
             return [
                 'settings' => $settings,
@@ -205,7 +206,19 @@ class LaravelH5p
         } else {
             return [
                 'settings' => $settings,
-                'embed'    => '<div class="h5p-iframe-wrapper"><iframe id="h5p-iframe-'.$content['id'].'" class="h5p-iframe" data-content-id="'.$content['id'].'" style="height:1px" src="about:blank" frameBorder="0" scrolling="no"></iframe></div>',
+                //TODO: remove xAPI post req or do something with it
+                'embed'    => '<script>
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    H5P.externalDispatcher.on("xAPI", function (event) {
+
+                                        fetch("'.route('h5p.ajax.xapi').'", {
+                                            method: "POST",
+                                            body: JSON.stringify(event.data.statement),
+                                            headers: {"Content-type": "application/json; charset=UTF-8"}
+                                        });
+                                    });
+                                });
+                            </script><div class="h5p-iframe-wrapper"><iframe id="h5p-iframe-'.$content['id'].'" class="h5p-iframe" data-content-id="'.$content['id'].'" style="height:1px" src="about:blank" frameBorder="0" scrolling="no"></iframe></div>',
             ];
         }
     }
