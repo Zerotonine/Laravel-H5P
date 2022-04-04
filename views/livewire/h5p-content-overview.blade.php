@@ -128,7 +128,7 @@
 
     <div class="row">
         <div class="col-md-12 mt-2">
-            {{$this->entries->links('pagination::tailwind')}}
+            {{$this->entries->links()}}
         </div>
     </div>
 </div>

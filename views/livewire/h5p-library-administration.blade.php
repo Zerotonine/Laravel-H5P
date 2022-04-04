@@ -100,7 +100,7 @@
     </div>
 
     <div class="mt-5">
-        {{$this->entries->links('pagination::tailwind')}}
+        {{$this->entries->links()}}
     </div>
 
 

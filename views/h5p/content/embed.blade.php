@@ -14,6 +14,7 @@
             window.Laravel = <?php echo json_encode([ 'csrfToken' => csrf_token()]); ?>
         </script>
 
+
         {{--    core styles       --}}
         @foreach($settings['core']['styles'] as $style)
         {{ Html::style($style) }}
@@ -42,6 +43,18 @@
         @foreach($settings['loadedJs'] as $script)
         {{ Html::script($script) }}
         @endforeach
+        <script>
 
+            document.addEventListener('DOMContentLoaded', () => {
+                H5P.externalDispatcher.on('xAPI', function (event) {
+                    fetch('{{route('h5p.ajax.xapi')}}', {
+                        method: "POST",
+                        body: JSON.stringify(event.data.statement),
+                        headers: {"Content-type": "application/json; charset=UTF-8"}
+                    });
+                });
+            });
+
+        </script>
     </body>
 </html>
