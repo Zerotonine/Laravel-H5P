@@ -73,6 +73,12 @@ Route::prefix('admin/h5p')->group(function () {
                 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@contentUserData'
             )->name('h5p.ajax.content-user-data');
 
+
+            Route::post(
+                'ajax/xapi-statement',
+                'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@storeTinCanStatements'
+            )->name('h5p.ajax.xapi');
+
             //nonce
             Route::match(['GET', 'POST'], 'ajax/{nonce}/libraries', 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@libraries');
             Route::post('ajax/{nonce}/files', 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@files');
