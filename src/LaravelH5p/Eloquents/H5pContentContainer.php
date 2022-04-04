@@ -10,7 +10,8 @@ class H5pContentContainer extends Model
 {
     protected $primaryKey = 'id';
     protected $fillable = [
-        'title'
+        'title',
+        'user_id'
     ];
 
 }

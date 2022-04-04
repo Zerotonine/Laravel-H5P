@@ -15,6 +15,8 @@ class CreateH5pContentContainerTable extends Migration
     {
         Schema::create('h5p_content_container', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->string('title');
             $table->timestamps();
         });
