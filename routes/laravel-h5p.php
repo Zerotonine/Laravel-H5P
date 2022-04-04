@@ -67,11 +67,11 @@ Route::prefix('admin/h5p')->group(function () {
                 'ajax/finish',
                 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@finish'
             )->name('h5p.ajax.finish');
-            Route::post(
+            Route::match(
+                ['POST', 'GET'],
                 'ajax/content-user-data',
                 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@contentUserData'
             )->name('h5p.ajax.content-user-data');
-
 
             //nonce
             Route::match(['GET', 'POST'], 'ajax/{nonce}/libraries', 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@libraries');
@@ -79,7 +79,12 @@ Route::prefix('admin/h5p')->group(function () {
             Route::post('ajax/{nonce}/{contentId}/files', 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@files');
             Route::get('ajax/{nonce}/libraries', 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@libraries');
 
-            Route::get('ajax/{nonce}/{contentId}/libraries', 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@libraries');
+            Route::match(
+                ['GET', 'POST'],
+                'ajax/{nonce}/{contentId}/libraries',
+                'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@libraries'
+            )->name('h5p.ajax.libraries');
+            // Route::get('ajax/{nonce}/{contentId}/libraries', 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@libraries');
 
             Route::get('ajax/{nonce}/single-libraries', 'EscolaSoft\LaravelH5p\Http\Controllers\AjaxController@singleLibrary');
             //new
