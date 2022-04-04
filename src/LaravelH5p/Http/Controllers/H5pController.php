@@ -145,6 +145,7 @@ class H5pController extends Controller
             }
 
             if ($return_id) {
+                // $core->filterParameters($content);
                 return redirect()
                     // ->route('h5p.edit', $return_id)
                     ->back()

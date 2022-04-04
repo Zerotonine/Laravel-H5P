@@ -14,6 +14,8 @@ namespace EscolaSoft\LaravelH5p\Storages;
 
 use Error;
 use H5PFileStorage;
+use EscolaSoft\LaravelH5p\Eloquents\H5pContent;
+use EscolaSoft\LaravelH5p\Helpers\DatastructureHelpers as DSHelper;
 
 //use Illuminate\Filesystem\Filesystem;
 //use Symfony\Component\Finder\Finder;
@@ -132,14 +134,32 @@ class LaravelH5pStorage implements H5PFileStorage
     public function exportContent($id, $target)
     {
         $source = "{$this->path}/content/{$id}";
+
+        //get only relevant files for exporting
+        $content = H5pContent::where('id', $id)->first();
+        $parameters = $content['parameters'] ?? null;
+        $mediaFilesForExport = [];
+        if($parameters){
+            $parameters = json_decode($parameters, true);
+            $pathes = DSHelper::findArrayValues($parameters, 'path');
+            $regEx = '/([^\/]+)(#tmp$)/m';
+            if(count($pathes) > 0){
+                foreach($pathes as $path){
+                    preg_match($regEx, $path, $matches);
+                    array_push($mediaFilesForExport, $matches[1]);
+                }
+            }
+        }
+
         if (file_exists($source)) {
             // Copy content folder if it exists
-            self::copyFileTree($source, $target);
+            self::copyFileTree($source, $target, $mediaFilesForExport);
         } else {
             // No contnet folder, create emty dir for content.json
             self::dirReady($target);
         }
     }
+
 
     /**
      * Fetch library folder and save in target directory.
@@ -484,12 +504,14 @@ class LaravelH5pStorage implements H5PFileStorage
      * @param string $destination
      *                            To path
      *
+     * @param array $mediaFilesForExport media files that will be in the exported H5P
+     *
      * @throws Exception Unable to copy the file
      *
      * @return array
      *              array with the names of the copied files.
      */
-    private static function copyFileTree($source, $destination)
+    private static function copyFileTree($source, $destination, &$mediaFilesForExport = null)
     {
         if (!self::dirReady($destination)) {
             throw new \Exception('unabletocopy');
@@ -507,9 +529,9 @@ class LaravelH5pStorage implements H5PFileStorage
         }
 
         while (false !== ($file = readdir($dir))) {
-            if (($file != '.') && ($file != '..') && $file != '.git' && $file != '.gitignore' && !in_array($file, $ignoredFiles)) {
+            if (($file != '.') && ($file != '..') && $file != '.git' && $file != '.gitignore' && !in_array($file, $ignoredFiles) && (!$mediaFilesForExport || is_dir("{$source}/{$file}") || in_array($file, $mediaFilesForExport))) {
                 if (is_dir("{$source}/{$file}")) {
-                    self::copyFileTree("{$source}/{$file}", "{$destination}/{$file}");
+                    self::copyFileTree("{$source}/{$file}", "{$destination}/{$file}", $mediaFilesForExport);
                 } else {
                     preg_match("/[^\/]+(?=\/?$)/", $source, $matches);
                     array_push($files, "{$matches[0]}/{$file}");

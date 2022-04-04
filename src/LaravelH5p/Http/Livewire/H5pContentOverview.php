@@ -29,6 +29,7 @@ class H5pContentOverview extends Component
     protected Request $request;
     public $settings;
 
+
     public function getEntriesProperty(){
         return H5pContent::orderBy('h5p_contents.id', 'desc')->paginate($this->pagination);
     }

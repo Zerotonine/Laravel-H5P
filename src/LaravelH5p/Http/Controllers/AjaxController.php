@@ -149,6 +149,9 @@ class AjaxController extends Controller
 
     public function contentUserData(Request $request)
     {
+        if($request->isMethod('get')) //Editor calls content-user-data endpoint with a GET req on loading a H5P for editing....WHY?!
+            return;
+
         $input = $request->all();
 
         $contentId = basename($request->header('referer'));
@@ -180,5 +183,10 @@ class AjaxController extends Controller
         return response()->json([
             'success' => true,
         ]);
+    }
+
+    //TODO: experimental
+    public function storeTinCanStatements(Request $request){
+        $all = $request->all();
     }
 }
