@@ -33,8 +33,10 @@
         </div>
     </div> --}}
 
-    <div class="mb-3">
+    <div class="my-3">
         <button wire:click="newContent" class="bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 font-bold rounded">{{trans('laravel-h5p.content.create')}}</button>
+        <button wire:click="$toggle('bundleMode')" class="{{$bundleMode ? 'bg-green-500 hover:bg-green-700' : 'bg-blue-500 hover:bg-blue-700'}} text-white m-2 px-2 py-1 font-bold rounded">Bundle Mode</button>
+        <input wire:model.debounce.250ms="search" type="text" placeholder="Suche..." class="p-1 my-1 rounded border border-gray-700" />
     </div>
 
     {{-- CONTENT DELETION MESSAGES --}}
@@ -54,9 +56,12 @@
     <div class="row">
 
         <div class="col-md-12">
-
+            {{-- //TODO: remove bundle stuff --}}
             <table class="h5p-lists min-w-full border-collapse block md:table">
                 <colgroup>
+                    @if($bundleMode)
+                    <col width="5%">
+                    @endif
                     <col width="10%">
                     <col width="15%">
                     <col width="*">
@@ -66,6 +71,9 @@
 
                 <thead class="block md:table-header-group">
                     <tr class="border border-grey-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto md:relative">
+                        @if($bundleMode)
+                            <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left  block md:table-cell">Bundle</th>
+                        @endif
                         <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">#</th>
                         <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">{{ trans('laravel-h5p.content.creator') }}</th>
                         <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">{{ trans('laravel-h5p.content.title') }}</th>
@@ -84,6 +92,12 @@
 
                     @foreach($this->entries as $n => $entry)
                     <tr class="{{($n+1)%2===0 ? 'bg-gray-300' : 'bg-white-500'}} border border-grey-500 md:border-none block md:table-row">
+
+                        @if($bundleMode)
+                        <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
+                            <input type="checkbox" id="cid-{{$entry->id}}"/>
+                        </td>
+                        @endif
 
                         <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
                             {{ $entry->id }}
