@@ -11,6 +11,9 @@ use EscolaSoft\LaravelH5p\Http\Livewire\H5pEditor;
 use EscolaSoft\LaravelH5p\Http\Livewire\H5pContentOverview;
 use EscolaSoft\LaravelH5p\Http\Livewire\H5pFlash;
 use EscolaSoft\LaravelH5p\Http\Livewire\H5pLibraryAdministration;
+use EscolaSoft\LaravelH5p\Http\Livewire\H5pBundlesOverview;
+use EscolaSoft\LaravelH5p\Http\Livewire\H5pBundleCreateModal;
+use EscolaSoft\LaravelH5p\Http\Livewire\H5pBundle;
 use Livewire\Livewire;
 
 class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider
@@ -73,10 +76,15 @@ class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider
 
         $this->loadViewsFrom(__DIR__.'/../../views/livewire', 'lh5p');
         $this->loadViewsFrom(__DIR__.'/../../views/components', 'lh5p');
+        $this->loadViewsFrom(__DIR__.'/../../views/h5p/layouts', 'lh5p');
+
         Livewire::component('h5p-editor', H5pEditor::class);
         Livewire::component('h5p-content-overview', H5pContentOverview::class);
         Livewire::component('h5p-flash', H5pFlash::class);
         Livewire::component('h5p-library-administration', H5pLibraryAdministration::class);
+        Livewire::component('h5p-bundles-overview', H5pBundlesOverview::class);
+        Livewire::component('h5p-bundle-create-modal', H5pBundleCreateModal::class);
+        Livewire::component('h5p-bundle', H5pBundle::class);
         Blade::componentNamespace('EscolaSoft\\LaravelH5p\\Components', 'lh5p');
 
         // config
