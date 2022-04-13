@@ -31,9 +31,14 @@
         @livewire('h5p-flash', ['title' => 'Fehler!', 'message' => session('h5p.delete.error'), 'type' => 'negative'])
     @endif
 
+    <div class="my-3">
+        <input wire:model.debounce.250ms="search" placeholder="Search..." class="p-1 my-1 rounded border border-gray-700">
+    </div>
+
     <div>
         <table class="h5p-lists min-w-full border-collapse block md:table mt-6">
             <colgroup>
+                <col width="5%" />
                 <col width="*" />
                 <col width="8%"/>
                 <col width="8%"/>
@@ -45,6 +50,7 @@
 
             <thead class="block md:table-header-group">
                 <tr class="border border-grey-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto md:relative">
+                    <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">#</th>
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-left block md:table-cell">{{ trans('laravel-h5p.library.name') }}</th>
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">{{ trans('laravel-h5p.library.version') }}</th>
                     <th class="bg-gray-600 p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">{{ trans('laravel-h5p.library.restricted') }}</th>
@@ -58,7 +64,7 @@
             <tbody class="block md:table-row-group">
                 @unless(count($this->entries) > 0)
                     <tr class="bg-gray-300 border border-grey-500 md:border-none block md:table-row">
-                        <td colspan="7" class="p-2 md:border md-border-grey-500 text-center block md:table-cell">
+                        <td colspan="8" class="p-2 md:border md-border-grey-500 text-center block md:table-cell">
                             {{ trans('laravel-h5p.common.no-result') }}
                         </td>
                     </tr>
@@ -66,6 +72,10 @@
 
                 @foreach ($this->entries as $n => $entry)
                     <tr class="{{($n+1)%2===0 ? 'bg-gray-300' : 'bg-white-500'}} border border-grey-500 md:border-none block md:table-row">
+                        <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
+                            {{$entry->id}}
+                        </td>
+
                         <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell">
                             {{$entry->title}}
                         </td>

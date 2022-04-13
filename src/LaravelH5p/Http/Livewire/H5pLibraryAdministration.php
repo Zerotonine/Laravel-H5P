@@ -22,6 +22,7 @@ class H5pLibraryAdministration extends Component
     public $last_update;
     public $hubOn;
     public $required_files;
+    public $search = null;
 
     public $pagination = 10;
     public $showDeletionModal = false;
@@ -33,7 +34,14 @@ class H5pLibraryAdministration extends Component
     }
 
     public function getEntriesProperty(){
+        if($this->search){
+            return H5pLibrary::where('title', 'LIKE', '%'.$this->search.'%')->paginate($this->pagination);
+        }
         return H5pLibrary::paginate($this->pagination);
+    }
+
+    public function searchUpdating(){
+        $this->refreshPage();
     }
 
     public function showDeletionModal($libraryId){
