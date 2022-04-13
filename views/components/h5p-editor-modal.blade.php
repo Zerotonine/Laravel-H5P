@@ -5,7 +5,7 @@
     <div onclick="livewire.emit('closeEditor')" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true">
     </div>
 
-    <div class="w-2/4 relative inline-block align-bottom bg-white rounded-lg text-left shadow-xl transform transition-all sm:my-8 sm:align-middle">
+    <div class="w-2/4 relative inline-block align-bottom bg-white rounded-lg text-left shadow-xl transition-all sm:my-8 sm:align-middle">
       <div class="bg-white px-2 pt-3 pb-2 sm:p-3 sm:pb-2 rounded">
         {{-- <div class="sm:flex sm:items-start"> --}}
 
