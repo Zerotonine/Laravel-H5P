@@ -43,7 +43,7 @@
         @foreach($settings['loadedJs'] as $script)
         {{ Html::script($script) }}
         @endforeach
-        <script>
+        {{-- <script>
 
             document.addEventListener('DOMContentLoaded', () => {
                 H5P.externalDispatcher.on('xAPI', function (event) {
@@ -55,6 +55,6 @@
                 });
             });
 
-        </script>
+        </script> --}}
     </body>
 </html>
