@@ -19,6 +19,8 @@ class H5pContentOverview extends Component
     public $showModal = false;
     public $showEditor = false;
     public $showContent = false;
+    public $bundleMode = false;
+    public $search = '';
 
     public $contentId = null;
     public $title = null;
@@ -31,7 +33,14 @@ class H5pContentOverview extends Component
 
 
     public function getEntriesProperty(){
+        if($this->search){
+            return H5pContent::where('title', 'LIKE', '%'.$this->search.'%')->orderBy('h5p_contents.id', 'desc')->paginate($this->pagination);
+        }
         return H5pContent::orderBy('h5p_contents.id', 'desc')->paginate($this->pagination);
+    }
+
+    public function updatingSearch(){
+        $this->resetPage();
     }
 
     protected function getListeners()
