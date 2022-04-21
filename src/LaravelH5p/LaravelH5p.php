@@ -16,6 +16,7 @@ use EscolaSoft\LaravelH5p\Repositories\EditorAjaxRepository;
 use EscolaSoft\LaravelH5p\Repositories\LaravelH5pRepository;
 use EscolaSoft\LaravelH5p\Storages\EditorStorage;
 use EscolaSoft\LaravelH5p\Storages\LaravelH5pStorage;
+use EscolaSoft\LaravelH5p\Eloquents\H5pContentsUserData;
 use H5PContentValidator;
 use H5PCore;
 
@@ -165,15 +166,20 @@ class LaravelH5p
      *
      * @return string Embed code
      */
-    public function get_embed($content, $settings, $no_cache = false)
+    public function get_embed($content, $settings, $bundleId = null, $no_cache = false)
     {
         // Detemine embed type
         $embed = H5PCore::determineEmbedType($content['embedType'], $content['library']['embedTypes']);
         // Make sure content isn't added twice
         $cid = 'cid-'.$content['id'];
         if (!isset($settings['contents'][$cid])) {
-            $settings['contents'][$cid] = self::get_content_settings($content);
+            $settings['contents'][$cid] = self::get_content_settings($content, $bundleId);
             $core = self::$core;
+
+            //TODO: Change if metadata is implemented correctly
+            $settings['contents'][$cid]['metadata'] = $content['metadata'];
+            $settings['contents'][$cid]['metadata']['title'] = $content['title'];
+
             // Get assets for this content
             $preloaded_dependencies = $core->loadContentDependencies($content['id'], 'preloaded');
             $files = $core->getDependenciesFiles($preloaded_dependencies);
@@ -251,6 +257,7 @@ class LaravelH5p
                 'H5P' => trans('laravel-h5p.h5p'),
             ],
             'hubIsEnabled' => config('laravel-h5p.h5p_hub_is_enabled'),
+            'reportingIsEnabled' => config('laravel-h5p.enable_lrs_content_types')
         ];
 
         if (Auth::check()) {
@@ -309,6 +316,7 @@ class LaravelH5p
             'assets'             => [],
             'deleteMessage'      => trans('laravel-h5p.content.destoryed'),
             'apiVersion'         => H5PCore::$coreApi,
+            //'reportingIsEnabled' => true,
         ];
 
         // contents
@@ -356,7 +364,7 @@ class LaravelH5p
      *
      * @return type
      */
-    public static function get_content_settings($content)
+    public static function get_content_settings($content, $bundleId = null)
     {
         $safe_parameters = self::$core->filterParameters($content);
 //        if (has_action('h5p_alter_filtered_parameters')) {
@@ -379,13 +387,35 @@ class LaravelH5p
         // Getting author's user id
         $author_id = (int) (is_array($content) ? $content['user_id'] : $content->user_id);
 
+        $embedRoute = '';
+        if($bundleId === null){
+            $embedRoute = route('h5p.embed', ['id' => $content['id']]);
+        } else {
+            $embedRoute = route('h5p.embed.bundle', ['id' => $content['id'], 'bundleId' => $bundleId]);
+        }
         // Add JavaScript settings for this content
+        // $settings = [
+        //     'library'         => H5PCore::libraryToString($content['library']),
+        //     'jsonContent'     => $safe_parameters,
+        //     'fullScreen'      => $content['library']['fullscreen'],
+        //     'exportUrl'       => config('laravel-h5p.h5p_export') ? route('h5p.export', [$content['id']]) : '',
+        //     'embedCode'       => '<iframe src="'. $bundleId != null ? route('h5p.embed.bundle', ['id' => $content['id'], 'bundleId' => $bundleId]) : route('h5p.embed', ['id' => $content['id']]) .'" width=":w" height=":h" frameborder="0" allowfullscreen="allowfullscreen"></iframe>',
+        //     'resizeCode'      => '<script src="'.self::get_h5pcore_url('/js/h5p-resizer.js').'" charset="UTF-8"></script>',
+        //     'url'             => route('h5p.embed', ['id' => $content['id']]),
+        //     'title'           => $content['title'],
+        //     'displayOptions'  => self::$core->getDisplayOptionsForView($content['disable'], $author_id),
+        //     'contentUserData' => [
+        //         0 => [
+        //             'state' => '{}',
+        //         ],
+        //     ],
+        // ];
         $settings = [
             'library'         => H5PCore::libraryToString($content['library']),
             'jsonContent'     => $safe_parameters,
             'fullScreen'      => $content['library']['fullscreen'],
             'exportUrl'       => config('laravel-h5p.h5p_export') ? route('h5p.export', [$content['id']]) : '',
-            'embedCode'       => '<iframe src="'.route('h5p.embed', ['id' => $content['id']]).'" width=":w" height=":h" frameborder="0" allowfullscreen="allowfullscreen"></iframe>',
+            'embedCode'       => '<iframe src="'. $embedRoute .'" width=":w" height=":h" frameborder="0" allowfullscreen="allowfullscreen"></iframe>',
             'resizeCode'      => '<script src="'.self::get_h5pcore_url('/js/h5p-resizer.js').'" charset="UTF-8"></script>',
             'url'             => route('h5p.embed', ['id' => $content['id']]),
             'title'           => $content['title'],
@@ -399,24 +429,31 @@ class LaravelH5p
 
         // Get preloaded user data for the current user
         if (config('laravel-h5p.h5p_save_content_state') && Auth::check()) {
-            $results = \DB::select(
+            /*$results = \DB::select(
                 '
                 SELECT
                 hcud.sub_content_id,
                 hcud.data_id,
-                hcud.data
+                hcud.data,
+                hcud.container_id
                 FROM h5p_contents_user_data hcud
                 WHERE user_id = ?
                 AND content_id = ?
-                AND preload = 1',
-                [Auth::user()->id, $content['id']]
+                AND preload = 1
+                AND container_id = ?
+                ',
+                [Auth::user()->id, $content['id'], (int)$bundleId]
             );
 
             if ($results) {
                 foreach ($results as $result) {
                     $settings['contentUserData'][$result->sub_content_id][$result->data_id] = $result->data;
                 }
-            }
+            }*/
+            $result = H5pContentsUserData::select(['sub_content_id', 'data_id', 'data'])
+                        ->where(['user_id' => Auth::user()->id, 'content_id' => $content['id'], 'preload' => 1, 'container_id' => $bundleId])->first();
+            if(!empty($result))
+                $settings['contentUserData'][$result?->sub_content_id][$result?->data_id] = $result?->data;
         }
 
         return $settings;
