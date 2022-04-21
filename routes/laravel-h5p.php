@@ -128,6 +128,9 @@ Route::prefix('admin/h5p')->group(function () {
         // export
         //    if (config('laravel-h5p.use_router') == 'EXPORT' || config('laravel-h5p.use_router') == 'ALL') {
         Route::get('h5p/embed/{id}', 'EscolaSoft\LaravelH5p\Http\Controllers\EmbedController')->name('h5p.embed');
+        Route::get('h5p/embed/{id}/{bundleId}', 'EscolaSoft\LaravelH5p\Http\Controllers\EmbedController')->name('h5p.embed.bundle');
+
+
         Route::get('h5p/export/{id}', 'EscolaSoft\LaravelH5p\Http\Controllers\DownloadController')->name('h5p.export');
 //    }
     });
