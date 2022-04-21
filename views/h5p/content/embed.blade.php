@@ -31,11 +31,14 @@
             {!! $embed_code  !!}
         </div>
 
+        @once
         <script type="text/javascript">
             H5PIntegration = {!! json_encode($settings) !!};
         </script>
+        @endonce
 
         {{--    core script       --}}
+        @once
         @foreach($settings['core']['scripts'] as $script)
         {{ Html::script($script) }}
         @endforeach
@@ -43,6 +46,7 @@
         @foreach($settings['loadedJs'] as $script)
         {{ Html::script($script) }}
         @endforeach
+        @endonce
         {{-- <script>
 
             document.addEventListener('DOMContentLoaded', () => {

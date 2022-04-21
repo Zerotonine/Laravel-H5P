@@ -822,6 +822,10 @@ class LaravelH5pRepository implements H5PFrameworkInterface
             $name = 'h5p_site_uuid'; // Make up for old core bug
         }
 
+        if($name === 'enable_lrs_content_types'){
+            return config('laravel-h5p.enable_lrs_content_types');
+        }
+
         return config('laravel-h5p.h5p_'.$name, $default);
     }
 

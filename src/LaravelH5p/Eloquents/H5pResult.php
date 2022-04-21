@@ -16,5 +16,10 @@ class H5pResult extends Model
         'opened',
         'finished',
         'time',
+        'container_id'
     ];
+
+    public function bundle(){
+        return $this->belongsTo(H5pContentContainer::class, 'container_id');
+    }
 }

@@ -28,4 +28,8 @@ class H5pContentContainer extends Model
         // return $this->belongsToMany(H5pContent::class, 'h5p_content_container_contents', 'content_id', 'container_id');
         return $this->belongsToMany(H5pContent::class, 'h5p_content_container_contents', 'container_id', 'content_id');
     }
+
+    public function results(){
+        return $this->hasMany(H5pResult::class, 'container_id');
+    }
 }

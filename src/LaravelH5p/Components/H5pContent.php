@@ -9,6 +9,7 @@ use EscolaSoft\LaravelH5p\Eloquents\H5pContent as Content;
 class H5pContent extends Component
 {
     public $contentId = null;
+    public $bundleId = null;
     public $width = null;
     public $height = null;
     public $showTitle = false;
@@ -21,9 +22,10 @@ class H5pContent extends Component
      *
      * @return void
      */
-    public function __construct($contentId, $showTitle = false, $width = "1200", $height = "auto")
+    public function __construct($contentId, $bundleId = null, $showTitle = false, $width = "1200", $height = "auto")
     {
         $this->contentId = $contentId;
+        $this->bundleId = $bundleId;
         $this->width = $width;
         $this->height = $height;
         $this->showTitle = $showTitle;

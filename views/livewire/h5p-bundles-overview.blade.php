@@ -104,27 +104,46 @@
     <div class="my-3">
         <button wire:click="closeAddPackages" class="bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 font-bold rounded">Zurück</button>
     </div>
-    <h1 class="bg-gray-500 p-2 text-white font-bold">Füge Inhaltspakete dem Bundle <span class="italic font-semibold">{{$bundleId}}-{{$bundleTitle}}</span> hinzu.</h1>
 
-    <div class="my-2 grid grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)] gap-2 box-border">
-        <div class="bg-red-200 w-full p-2 overflow-auto h-[500px] max-h-[500px]">
-            @foreach($this->contents as $n => $content)
-                <p wire:click="addToBundle({{$content->id}})" class="hover:bg-red-400 cursor-pointer">{{$content->title}}</p>
-            @endforeach
-        </div>
-
-        {{-- <div class="bg-green-200 w-full max-h-[5rem]">
-            <h2>grid 2</h2>
-        </div> --}}
-
-        <div class="bg-blue-200 w-full overflow-auto h-[500px] max-h-[500px]">
-            @foreach($this->bundles as $bundle)
-                @foreach($bundle->contents as $content)
-                    <p wire:click="removeFromBundle({{$content->id}})" class="hover:bg-blue-400 cursor-pointer">{{$content->title}}</p>
+    <details>
+        <summary class="bg-gray-500 p-2 text-white font-bold cursor-pointer">
+            Füge Inhaltspakete dem Bundle <span class="italic font-semibold">{{$bundleId}}-{{$bundleTitle}}</span> hinzu.
+        </summary>
+        <div class="my-2 grid grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)] gap-2 box-border">
+            <div class="bg-red-200 w-full p-2 overflow-auto h-[500px] max-h-[500px]">
+                @foreach($this->contents as $n => $content)
+                    <p wire:click="addToBundle({{$content->id}})" class="hover:bg-red-400 cursor-pointer">{{$content->title}}</p>
                 @endforeach
-            @endforeach
+            </div>
+
+            {{-- <div class="bg-green-200 w-full max-h-[5rem]">
+                <h2>grid 2</h2>
+            </div> --}}
+
+            <div class="bg-blue-200 w-full overflow-auto h-[500px] max-h-[500px]">
+                @foreach($this->bundles as $bundle)
+                    @foreach($bundle->contents as $content)
+                        <p wire:click="removeFromBundle({{$content->id}})" class="hover:bg-blue-400 cursor-pointer">{{$content->title}}</p>
+                    @endforeach
+                @endforeach
+            </div>
         </div>
+    </details>
+
+    <div class="my-5">
+        <details open>
+            <summary class="bg-gray-500 p-2 text-white font-bold cursor-pointer">Fragen im Bundle</summary>
+
+            <div class="bg-green-200 min-h-[150px] p-2">
+                <p>
+                    asdasdasdasd <br />
+                    asdasdasdasdasdasda <br/>
+                    asdasdasdasd<br/>
+                </p>
+            </div>
+        </details>
     </div>
+
     @endif
 </div>
 

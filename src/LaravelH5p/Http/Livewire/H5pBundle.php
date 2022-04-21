@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class H5pBundle extends Component
 {
+    //TODO: Reduce roundtrips
     public $bundle;
     public $demo;
 
@@ -25,6 +26,7 @@ class H5pBundle extends Component
 
     public $activeContentId = null;
     public $title = "";
+    public $showResults = false;
 
     public function getEntriesProperty(){
         $bundle = H5pBundles::where(['id' => $this->bundle])->first() ?? null;
@@ -47,8 +49,15 @@ class H5pBundle extends Component
     }
 
     public function switchContent($contentId){
+        $this->showResults = false;
         $this->activeContentId = $contentId;
         $this->emit('contentChanged', $contentId);
+    }
+
+    public function showResults(){
+        if($this->showResults){return;}
+        $this->showResults = true;
+        $this->activeContentId = null;
     }
 
     public function getTitle($contentId){

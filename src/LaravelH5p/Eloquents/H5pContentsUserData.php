@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Builder;
 class H5pContentsUserData extends Model
 {
     public $timestamps = false;
-    public $incrementing = false;
-    protected $primaryKey = ['content_id', 'user_id', 'sub_content_id', 'data_id'];
+    //public $incrementing = true;
+    //protected $primaryKey = ['content_id', 'user_id', 'sub_content_id', 'data_id'];
+    protected $primaryKey = 'id';
     protected $fillable = [
         'content_id',
         'user_id',
@@ -19,6 +20,7 @@ class H5pContentsUserData extends Model
         'preload',
         'invalidate',
         'updated_at',
+        'container_id'
     ];
 
     // protected function setKeysForSaveQuery(Builder $query)
@@ -29,11 +31,11 @@ class H5pContentsUserData extends Model
     //         ->where('data_id', $this->getAttribute('data_id'));
     // }
 
-    protected function setKeysForSaveQuery($query)
+    /*protected function setKeysForSaveQuery($query)
     {
         return $query->where('content_id', $this->getAttribute('content_id'))
             ->where('user_id', $this->getAttribute('user_id'))
             ->where('sub_content_id', $this->getAttribute('sub_content_id'))
             ->where('data_id', $this->getAttribute('data_id'));
-    }
+    }*/
 }

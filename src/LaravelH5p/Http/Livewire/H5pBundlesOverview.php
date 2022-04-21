@@ -2,6 +2,7 @@
 
 namespace EscolaSoft\LaravelH5p\Http\Livewire;
 
+use EscolaSoft\LaravelH5p\AnswerResolver\Helpers\AnswerResolverHelper;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use EscolaSoft\LaravelH5p\Events\H5pEvent;
@@ -43,6 +44,8 @@ class H5pBundlesOverview extends Component
     }
 
     public function getContentsProperty(){
+        AnswerResolverHelper::getBundleLibraries($this->bundleId);
+
         $contents = H5pContent::whereDoesntHave('bundles', function (Builder $query) {
             $query->where('container_id', $this->bundleId);
         })->orderBy('id', 'desc')->get();

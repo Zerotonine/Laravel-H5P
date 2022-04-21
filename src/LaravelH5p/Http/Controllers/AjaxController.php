@@ -130,6 +130,10 @@ class AjaxController extends Controller
     {
         $input = $request->all();
 
+        $ref = $request->headers->get('referer');
+        $matches = []; //matches will be empty if bundleId is not in referer otherwise bundleid will be in $matches[2]
+        preg_match("/embed.(\d+)\D+(\d+)/", $ref, $matches);
+
         $data = [
             'content_id' => $input['contentId'],
             'max_score' => $input['maxScore'],
@@ -138,6 +142,7 @@ class AjaxController extends Controller
             'finished' => $input['finished'],
             'time' => $input['finished'] - $input['opened'],
             'user_id' => \Auth::user()->id,
+            'container_id' => count($matches) === 0 ? null : $matches[2]
         ];
 
         H5pResult::create($data);
@@ -154,13 +159,26 @@ class AjaxController extends Controller
 
         $input = $request->all();
 
-        $contentId = basename($request->header('referer'));
+        $ref = $request->header('referer');
+        $matches = []; //matches[2] will be the bundleId/container_id, if no bundleId is present matches will be null
+        preg_match("/embed.(\d+)\D+(\d+)/", $ref, $matches);
+
+        $contentId = null;
+        $bundleId = null;
+        if(count($matches) === 0){
+            $contentId = basename($ref);
+        } else {
+            $contentId = $matches[1];
+            $bundleId = $matches[2];
+        }
+
 
         $userData = H5pContentsUserData::where([
             'content_id' => $contentId,
             'data_id' => 'state',
             'sub_content_id' => 0,
             'user_id' => \Auth::user()->id,
+            'container_id' => $bundleId
         ])->first();
 
         $data = [
@@ -172,6 +190,7 @@ class AjaxController extends Controller
             'preload' => $input['preload'],
             'invalidate' => $input['invalidate'],
             'updated_at' => now(),
+            'container_id' => $bundleId
         ];
 
         if (empty($userData)) {

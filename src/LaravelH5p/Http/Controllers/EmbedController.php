@@ -9,13 +9,13 @@ use Illuminate\Support\Facades\App;
 
 class EmbedController extends Controller
 {
-    public function __invoke(Request $request, $id)
+    public function __invoke(Request $request, $id, $bundleId = null)
     {
         $h5p = App::make('LaravelH5p');
         $core = $h5p::$core;
         $settings = $h5p::get_editor();
         $content = $h5p->get_content($id);
-        $embed = $h5p->get_embed($content, $settings);
+        $embed = $h5p->get_embed($content, $settings, $bundleId);
         $embed_code = $embed['embed'];
         $settings = $embed['settings'];
         $user = \Auth::user();

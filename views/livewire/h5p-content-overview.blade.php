@@ -172,14 +172,14 @@ document.addEventListener('livewire:load', () => {
     });
 });
 
-H5P.jQuery(document).ready(function () {
-    H5P.jQuery('#save-button').click(function () {
-        setTimeout(() => {
-            H5P.jQuery(this).prop('disabled', 'disabled');
-            H5P.jQuery('.h5p-delete').prop('disabled', 'disabled');
-        }, 50);
-    })
-});
+// H5P.jQuery(document).ready(function () {
+//     H5P.jQuery('#save-button').click(function () {
+//         setTimeout(() => {
+//             H5P.jQuery(this).prop('disabled', 'disabled');
+//             H5P.jQuery('.h5p-delete').prop('disabled', 'disabled');
+//         }, 50);
+//     })
+// });
 </script>
 
 @endpush
