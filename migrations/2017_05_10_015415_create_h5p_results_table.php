@@ -22,6 +22,7 @@ class CreateH5pResultsTable extends Migration
             $table->bigInteger('opened')->unsigned();
             $table->bigInteger('finished')->unsigned();
             $table->bigInteger('time')->unsigned();
+            //TODO: should the index be removed?!
             $table->index(['content_id', 'user_id'], 'content_user');
         });
     }
