@@ -41,5 +41,6 @@ return [
     'h5p_content_type_cache_updated_at' => 0,
     'h5p_check_h5p_requirements'        => false,
     'h5p_hub_is_enabled'                => true,
+    'enable_lrs_content_types'          => true,
     'h5p_version'                       => '1.24.0',
 ];
