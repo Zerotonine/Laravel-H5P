@@ -14,6 +14,9 @@ use EscolaSoft\LaravelH5p\Http\Livewire\H5pLibraryAdministration;
 use EscolaSoft\LaravelH5p\Http\Livewire\H5pBundlesOverview;
 use EscolaSoft\LaravelH5p\Http\Livewire\H5pBundleCreateModal;
 use EscolaSoft\LaravelH5p\Http\Livewire\H5pBundle;
+use EscolaSoft\LaravelH5p\Http\Livewire\H5pBundleResults;
+use EscolaSoft\LaravelH5p\AnswerResolver\Helpers;
+use EscolaSoft\LaravelH5p\AnswerResolver\Helpers\PackageNameHelper;
 use Livewire\Livewire;
 
 class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider
@@ -85,6 +88,7 @@ class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider
         Livewire::component('h5p-bundles-overview', H5pBundlesOverview::class);
         Livewire::component('h5p-bundle-create-modal', H5pBundleCreateModal::class);
         Livewire::component('h5p-bundle', H5pBundle::class);
+        Livewire::component('h5p-bundle-results', H5pBundleResults::class);
         Blade::componentNamespace('EscolaSoft\\LaravelH5p\\Components', 'lh5p');
 
         // config
@@ -138,6 +142,7 @@ class LaravelH5pServiceProvider extends \Illuminate\Support\ServiceProvider
             app_path('/../vendor/zerotonine/h5p-editor/scripts')  => public_path('assets/vendor/h5p/h5p-editor/scripts'),
             app_path('/../vendor/zerotonine/h5p-editor/styles')   => public_path('assets/vendor/h5p/h5p-editor/styles'),
         ], 'public');
+
     }
 
     public function provides()
