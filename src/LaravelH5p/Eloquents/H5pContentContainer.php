@@ -12,7 +12,11 @@ class H5pContentContainer extends Model
     protected $primaryKey = 'id';
     protected $fillable = [
         'title',
-        'user_id'
+        'user_id',
+        'background_path',
+        'watermark_path',
+        'watermark_opacity',
+        'multipliers'
     ];
 
     public function get_user()

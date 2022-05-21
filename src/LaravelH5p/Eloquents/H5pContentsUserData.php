@@ -5,6 +5,8 @@ namespace EscolaSoft\LaravelH5p\Eloquents;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
+use App\Models\User;
+
 class H5pContentsUserData extends Model
 {
     public $timestamps = false;
@@ -22,6 +24,11 @@ class H5pContentsUserData extends Model
         'updated_at',
         'container_id'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 
     // protected function setKeysForSaveQuery(Builder $query)
     // {
