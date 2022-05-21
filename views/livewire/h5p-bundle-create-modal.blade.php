@@ -43,7 +43,7 @@
                     {{-- <p class="text-sm text-gray-500">
                         <input type="text" class="w-full rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"/>
                     </p> --}}
-                    <input wire:model.lazy="title" type="text" class="w-full rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"/>
+                    <input id="createModalTitle" wire:model.lazy="title" type="text" class="w-full rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"/>
                     @error('title') <span class="text-red-500">{{$message}}</span>@enderror
                 </div>
                 </div>
@@ -57,3 +57,10 @@
         </div>
     </div>
   </div>
+
+  @once
+  <script>
+    const elem = document.querySelector('#createModalTitle');
+    elem.focus();
+  </script>
+  @endonce

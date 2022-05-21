@@ -22,7 +22,21 @@
                         </div>
                     </fieldset>
 
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 rounded">{{trans('laravel-h5p.content.save')}}</button>
+                    @if(config('laravel-h5p.h5p_show_display_option'))
+                    <div class="mt-3">
+                        <label>
+                            {{ Form::checkbox('frame', true, $display_options[H5PCore::DISPLAY_OPTION_FRAME], [
+                                'class' => 'h5p-visibility-toggler',
+                                'data-h5p-visibility-subject-selector' => ".h5p-action-bar-buttons-settings",
+                                'id' => 'frame',
+                                'value' => old('title')
+                            ]) }}
+                            {{ trans("laravel-h5p.content.display_toolbar") }}
+                        </label>
+                    </div>
+                    @endif
+
+                    <button type="submit" class="mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 rounded">{{trans('laravel-h5p.content.save')}}</button>
                 </form>
 
             @elseif($mode == 'edit')
@@ -40,7 +54,20 @@
                         </div>
                     </fieldset>
 
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 rounded">{{trans('laravel-h5p.content.save')}}</button>
+                    @if(config('laravel-h5p.h5p_show_display_option'))
+                    <div class="mt-3">
+                        <label>
+                            {{ Form::checkbox('frame', true, $display_options[H5PCore::DISPLAY_OPTION_FRAME], [
+                                'class' => 'h5p-visibility-toggler',
+                                'data-h5p-visibility-subject-selector' => ".h5p-action-bar-buttons-settings",
+                                'id' => 'frame',
+                                'value' => old('title')
+                            ]) }}
+                            {{ trans("laravel-h5p.content.display_toolbar") }}
+                        </label>
+                    </div>
+                    @endif
+                    <button type="submit" class="mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 rounded">{{trans('laravel-h5p.content.save')}}</button>
                 </form>
 
             @endif
