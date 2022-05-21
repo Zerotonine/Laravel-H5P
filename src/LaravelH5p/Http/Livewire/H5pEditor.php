@@ -73,7 +73,7 @@ class H5pEditor extends Component
         ]);
 
         $this->display_options = $this->core->getDisplayOptionsForEdit($this->content['disable']);
-
+        //dd($this->display_options);
         $this->settings = $this->h5p::get_editor($this->content);
         $this->settings['editor']['filesPath'] = asset('storage/h5p/content/' . $this->content['id']);
         event(new H5pEvent('content', 'edit', $this->content['id'], $this->content['title'], $this->content['library']['name'], $this->content['library']['majorVersion'] . '.' . $this->content['library']['minorVersion']));

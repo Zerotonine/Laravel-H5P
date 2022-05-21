@@ -141,7 +141,8 @@ class EditorStorage implements H5peditorStorage
 
     public function keepFile($fileId)
     {
-        DB::table('h5p_tmpfiles')->where('path', $fileId)->delete();
+        $path = str_replace(storage_path()."/app/public/h5p", "", $fileId);
+        DB::table('h5p_tmpfiles')->where('path', $path)->delete();
     }
 
     public static function markFileForCleanup($file, $content_id, $nonce = null)

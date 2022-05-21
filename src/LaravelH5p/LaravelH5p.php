@@ -216,7 +216,6 @@ class LaravelH5p
                 'embed'    => '<script>
                                 document.addEventListener("DOMContentLoaded", () => {
                                     H5P.externalDispatcher.on("xAPI", function (event) {
-
                                         fetch("'.route('h5p.ajax.xapi').'", {
                                             method: "POST",
                                             body: JSON.stringify(event.data.statement),
@@ -288,6 +287,10 @@ class LaravelH5p
         foreach (H5PCore::$scripts as $script) {
             $settings['core']['scripts'][] = self::get_h5pcore_url('/'.$script);
         }
+
+        //TODO: find better way for version upgrade/scripts
+        $settings['core']['scripts'][] = self::get_h5pcore_url('/js/h5p-version.js');
+        $settings['core']['scripts'][] = self::get_h5pcore_url('/js/h5p-content-upgrade-process.js');
 
         $settings['core']['scripts'][] = self::get_h5peditor_url('/scripts/h5peditor-editor.js');
 
@@ -366,6 +369,7 @@ class LaravelH5p
      */
     public static function get_content_settings($content, $bundleId = null)
     {
+        //dd($content);
         $safe_parameters = self::$core->filterParameters($content);
 //        if (has_action('h5p_alter_filtered_parameters')) {
         //            // Parse the JSON parameters

@@ -16,6 +16,7 @@ use Error;
 use H5PFileStorage;
 use EscolaSoft\LaravelH5p\Eloquents\H5pContent;
 use EscolaSoft\LaravelH5p\Helpers\DatastructureHelpers as DSHelper;
+use EscolaSoft\LaravelH5p\Eloquents\H5pTmpfile;
 
 //use Illuminate\Filesystem\Filesystem;
 //use Symfony\Component\Finder\Finder;
@@ -480,9 +481,19 @@ class LaravelH5pStorage implements H5PFileStorage
     public function removeContentFile($file, $contentId)
     {
         $path = "{$this->path}/content/{$contentId}/{$file}";
-        if (file_exists($path)) {
+        if(file_exists($path)){
             unlink($path);
         }
+        /*$path = "/content/{$contentId}/{$file}";
+        $fullPath = "{$this->path}{$path}";
+        if (file_exists($fullPath)) {
+            $tmpfile = H5pTmpfile::where(['path' => $path])->first();
+            dd($tmpfile);
+            if(isset($tmpfile)){
+                unlink($fullPath);
+            }
+            //unlink($path);
+        }*/
     }
 
     /**

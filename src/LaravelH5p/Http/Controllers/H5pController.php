@@ -13,7 +13,8 @@ use EscolaSoft\LaravelH5p\Exceptions\H5PException;
 use Response;
 use EscolaSoft\LaravelH5p\Eloquents\H5pTmpfile;
 use EscolaSoft\LaravelH5p\Helpers\FileHelper;
-
+use EscolaSoft\LaravelH5p\Eloquents\H5pContentContainer as H5pBundles;
+use EscolaSoft\LaravelH5p\Eloquents\H5pContentContainerContents as H5pBundleContents;
 class H5pController extends Controller
 {
     public function index(Request $request)
@@ -210,6 +211,28 @@ class H5pController extends Controller
         $core = $h5p::$core;
         $editor = $h5p::$h5peditor;
 
+        //update bundles where this content is used - reset multipliers
+        $bundles = H5pBundles::whereHas('contents', function($q) use ($contentId){
+            $q->where(['content_id' => $contentId]);
+        })->get();
+
+        foreach($bundles as $bundle){
+            $multipliers = json_decode($bundle->multipliers, true);
+
+            if(!array_key_exists($contentId, $multipliers)){
+                $multipliers += [$contentId => array()];
+            }
+
+            if(!isset($multipliers) || !is_array($multipliers[$contentId])){
+                continue;
+            }
+            foreach($multipliers[$contentId] as &$m){
+                $m = 1;
+            }
+            $bundle->multipliers = json_encode($multipliers);
+            $bundle->save();
+        }
+
         // $this->validate($request, [
         //     'action' => 'required',
         // ], [], [
@@ -263,7 +286,7 @@ class H5pController extends Controller
                 $core->saveContent($content);
 
                 // Move images and find all content dependencies
-                $editor->processParameters($content['id'], $content['library'], $params, $oldLibrary, $oldParams);
+                $editor->processParameters($content['id'], $content['library'], $params->params, $oldLibrary, $oldParams);
 
                 event(new H5pEvent('content', $event_type, $content['id'], $content['title'], $content['library']['machineName'], $content['library']['majorVersion'], $content['library']['minorVersion']));
 
@@ -372,10 +395,11 @@ class H5pController extends Controller
     {
         $set = [
             H5PCore::DISPLAY_OPTION_FRAME => filter_input(INPUT_POST, 'frame', FILTER_VALIDATE_BOOLEAN),
-            H5PCore::DISPLAY_OPTION_DOWNLOAD => filter_input(INPUT_POST, 'download', FILTER_VALIDATE_BOOLEAN),
+            H5PCore::DISPLAY_OPTION_DOWNLOAD => filter_input(INPUT_POST, 'download', FILTER_VALIDATE_BOOLEAN) ?? false,
             H5PCore::DISPLAY_OPTION_EMBED => filter_input(INPUT_POST, 'embed', FILTER_VALIDATE_BOOLEAN),
             H5PCore::DISPLAY_OPTION_COPYRIGHT => filter_input(INPUT_POST, 'copyright', FILTER_VALIDATE_BOOLEAN),
         ];
+
         $content['disable'] = $core->getStorableDisplayOptions($set, $content['disable']);
     }
 

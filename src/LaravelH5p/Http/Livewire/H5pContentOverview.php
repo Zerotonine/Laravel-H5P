@@ -19,7 +19,6 @@ class H5pContentOverview extends Component
     public $showModal = false;
     public $showEditor = false;
     public $showContent = false;
-    public $bundleMode = false;
     public $search = '';
 
     public $contentId = null;
@@ -34,9 +33,9 @@ class H5pContentOverview extends Component
 
     public function getEntriesProperty(){
         if($this->search){
-            return H5pContent::where('title', 'LIKE', '%'.$this->search.'%')->orderBy('h5p_contents.id', 'desc')->paginate($this->pagination);
+            return H5pContent::where(['user_id' => Auth::user()->id])->where('title', 'LIKE', '%'.$this->search.'%')->orderBy('h5p_contents.id', 'desc')->paginate($this->pagination);
         }
-        return H5pContent::orderBy('h5p_contents.id', 'desc')->paginate($this->pagination);
+        return H5pContent::where(['user_id' => Auth::user()->id])->orderBy('h5p_contents.id', 'desc')->paginate($this->pagination);
     }
 
     public function updatingSearch(){
@@ -55,6 +54,9 @@ class H5pContentOverview extends Component
     }
 
     public function showModal($id, $title){
+        if(!$this->checkUserAccess($id)){
+            return;
+        }
         $this->showModal = true;
         $this->contentId = $id;
         $this->title = $title;
@@ -83,12 +85,23 @@ class H5pContentOverview extends Component
     }
 
     public function showEditor($id){
+        if(!$this->checkUserAccess($id)){
+            return;
+        }
         $this->showEditor = true;
         $this->contentId = $id;
         $this->nonce = bin2hex(random_bytes(4));
         //laravel-h5p.js is listening for this...
         $contentPath = asset('storage/h5p/content/' . $id);
         $this->emit('editorOpened', $this->nonce, $contentPath, $id);
+    }
+
+    private function checkUserAccess($contentId){
+        $content = H5pContent::where(['id' => $contentId])->first();
+        if(!isset($content) || $content->user_id !== Auth::user()->id){
+            return false;
+        }
+        return true;
     }
 
     public function closeEditor(){

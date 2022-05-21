@@ -19,6 +19,8 @@ class H5pBundle extends Component
     public $bundle;
     public $demo;
 
+    public $background = null;
+
     protected $queryString = [
         'bundle' => ['except' => '', 'as' => 'b'],
         'demo' => ['except' => '', 'as' => 'd']
@@ -27,12 +29,18 @@ class H5pBundle extends Component
     public $activeContentId = null;
     public $title = "";
     public $showResults = false;
+    public $backgound = null;
+    public $watermark = null;
+    public $watermark_opacity = 0;
 
     public function getEntriesProperty(){
         $bundle = H5pBundles::where(['id' => $this->bundle])->first() ?? null;
         $contents = null;
         if(!is_null($bundle)){
             $contents = $bundle->contents;
+            $this->background = $bundle->background_path;
+            $this->watermark = $bundle->watermark_path;
+            $this->watermark_opacity = $bundle->watermark_opacity;
         } else {
             return null;
         }
@@ -46,6 +54,10 @@ class H5pBundle extends Component
         $entries = $this->getEntriesProperty();
         // $this->activeContentId = $this->getEntriesProperty()[0]->id;
         $this->activeContentId = count($entries) > 0 ? $entries[0]->id : null;
+        // if(!empty($this->background)){
+        //     $this->background = storage_path('app/'.$this->background);
+        // }
+        //dd($this->background);
     }
 
     public function switchContent($contentId){

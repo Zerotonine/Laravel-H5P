@@ -207,5 +207,6 @@ class AjaxController extends Controller
     //TODO: experimental
     public function storeTinCanStatements(Request $request){
         $all = $request->all();
+        dd($all);
     }
 }
